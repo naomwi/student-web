@@ -50,7 +50,7 @@ export async function signupAction(values: z.infer<typeof RegisterSchema>) {
   
   const validated = RegisterSchema.safeParse(values);
   if (!validated.success) {
-    return { error: validated.error.errors[0]?.message || "Dữ liệu đăng ký không hợp lệ" };
+    return { error: validated.error.issues[0]?.message || "Dữ liệu đăng ký không hợp lệ" };
   }
 
   const { email, password, full_name, username } = validated.data;

@@ -24,7 +24,7 @@ export async function createGroup(prevState: any, formData: FormData) {
 
   const validated = CreateGroupSchema.safeParse(rawData);
 
-  if (!validated.success) return { error: validated.error.errors[0]?.message || "Dữ liệu không hợp lệ" };
+  if (!validated.success) return { error: validated.error?.errors?.[0]?.message || "Dữ liệu không hợp lệ" };
 
   // Resolve members by username
   const memberUsernames = validated.data.members
