@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, User } from "lucide-react";
 import { AnswerForm } from "@/components/qa/answer-form";
 import { AcceptAnswerButton } from "@/components/qa/accept-answer-button";
+import Image from "next/image";
 
 type Props = {
   params: Promise<{ id: string }>
@@ -38,9 +39,6 @@ export default async function QuestionDetailPage({ params }: Props) {
       {/* QUESTION */}
       <div className="bg-white p-6 rounded-lg border shadow-sm">
         <h1 className="text-2xl font-bold mb-4 text-blue-800">{question.title}</h1>
-import Image from "next/image";
-
-// ... (bên trong JSX return)
         <div className="prose max-w-none text-gray-800 mb-6 whitespace-pre-wrap">
           {question.content}
         </div>
