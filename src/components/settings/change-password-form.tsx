@@ -8,14 +8,18 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { Lock } from "lucide-react";
 
-const initialState = {
-  message: "",
+type ActionState = {
+  error?: string;
+  success?: string;
+};
+
+const initialState: ActionState = {
   error: "",
   success: "",
 };
 
 export function ChangePasswordForm() {
-  const [state, formAction, isPending] = useActionState(updatePasswordAction, initialState);
+  const [state, formAction, isPending] = useActionState<ActionState, FormData>(updatePasswordAction, initialState);
 
   useEffect(() => {
     if (state?.error) {

@@ -8,14 +8,18 @@ import { useActionState } from "react"; // React 19
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-const initialState = {
-  message: "",
+type ActionState = {
+  error?: string;
+  success?: string;
+};
+
+const initialState: ActionState = {
   error: "",
   success: "",
 };
 
 export function ProfileForm({ profile }: { profile: any }) {
-  const [state, formAction, isPending] = useActionState(updateProfile, initialState);
+  const [state, formAction, isPending] = useActionState<ActionState, FormData>(updateProfile, initialState);
 
   useEffect(() => {
     if (state?.error) {
