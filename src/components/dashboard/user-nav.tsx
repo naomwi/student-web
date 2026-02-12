@@ -42,38 +42,38 @@ export function UserNav({ user }: UserNavProps) {
         </Button>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent className="w-64 z-[60] bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-2xl p-2 mt-2" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal p-3 bg-slate-50 rounded-xl mb-2">
+      <DropdownMenuContent className="w-64 z-[60] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-100 dark:border-slate-800 shadow-2xl rounded-2xl p-2 mt-2" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal p-3 bg-slate-50 dark:bg-slate-800 rounded-xl mb-2">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-bold text-indigo-900 leading-none flex items-center gap-2">
+            <p className="text-sm font-bold text-indigo-900 dark:text-indigo-100 leading-none flex items-center gap-2">
               {user.full_name || "Sinh viên"}
               <Sparkles className="h-3 w-3 text-amber-500" />
             </p>
-            <p className="text-xs leading-none text-slate-500 font-medium">
+            <p className="text-xs leading-none text-slate-500 dark:text-slate-400 font-medium">
               {user.username ? `@${user.username}` : user.email}
             </p>
           </div>
         </DropdownMenuLabel>
         
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 focus:text-indigo-700 cursor-pointer py-2.5">
+          <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 dark:focus:bg-indigo-900/30 focus:text-indigo-700 dark:focus:text-indigo-300 cursor-pointer py-2.5">
             <Link href="/dashboard/settings">
-              <User className="mr-2 h-4 w-4 text-slate-400 group-hover:text-indigo-600" />
+              <User className="mr-2 h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
               <span className="font-medium">Hồ sơ cá nhân</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 focus:text-indigo-700 cursor-pointer py-2.5">
+          <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 dark:focus:bg-indigo-900/30 focus:text-indigo-700 dark:focus:text-indigo-300 cursor-pointer py-2.5">
             <Link href="/dashboard/settings">
-              <Settings className="mr-2 h-4 w-4 text-slate-400 group-hover:text-indigo-600" />
+              <Settings className="mr-2 h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
               <span className="font-medium">Cài đặt</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         
-        <DropdownMenuSeparator className="bg-slate-100 my-2" />
+        <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 my-2" />
         
         <DropdownMenuItem 
-          className="rounded-lg text-rose-600 focus:bg-rose-50 focus:text-rose-700 cursor-pointer py-2.5"
+          className="rounded-lg text-rose-600 dark:text-rose-400 focus:bg-rose-50 dark:focus:bg-rose-900/30 focus:text-rose-700 dark:focus:text-rose-300 cursor-pointer py-2.5"
           onClick={async () => await signOutAction()}
         >
           <LogOut className="mr-2 h-4 w-4" />

@@ -86,26 +86,26 @@ export function CreateQuestionDialog() {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200 border border-indigo-100 max-h-[90vh] overflow-y-auto">
-        <h3 className="text-2xl font-serif font-bold mb-1 text-slate-800">Đặt câu hỏi mới</h3>
-        <p className="text-slate-500 text-sm mb-6">Mô tả vấn đề của bạn để cộng đồng hỗ trợ.</p>
+      <div className="bg-white dark:bg-slate-900 dark:border-slate-800 rounded-2xl p-8 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200 border border-indigo-100 max-h-[90vh] overflow-y-auto">
+        <h3 className="text-2xl font-serif font-bold mb-1 text-slate-800 dark:text-slate-100">Đặt câu hỏi mới</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">Mô tả vấn đề của bạn để cộng đồng hỗ trợ.</p>
         
         <form action={handleSubmit} className="space-y-5">
           <div>
-            <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Tiêu đề</label>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">Tiêu đề</label>
             <Input 
               name="title" 
               required 
               placeholder="Ví dụ: Làm sao để tính tích phân suy rộng?" 
-              className="rounded-xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500"
+              className="rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:border-indigo-500 focus:ring-indigo-500"
             />
           </div>
           
           <div>
-            <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Chi tiết vấn đề</label>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">Chi tiết vấn đề</label>
             <textarea 
                name="content" 
-               className="w-full min-h-[120px] p-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm" 
+               className="w-full min-h-[120px] p-3 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm" 
                required 
                placeholder="Mô tả chi tiết, đính kèm code hoặc ảnh lỗi..."
             />
@@ -113,10 +113,10 @@ export function CreateQuestionDialog() {
 
           {/* Image Upload Section */}
           <div>
-            <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Hình ảnh minh họa</label>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">Hình ảnh minh họa</label>
             <div className="flex flex-wrap gap-2 mb-2">
               {uploadedImages.map((url, idx) => (
-                <div key={idx} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 group">
+                <div key={idx} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 group">
                   <Image src={url} alt="Preview" fill className="object-cover" />
                   <button 
                     type="button"
@@ -128,7 +128,7 @@ export function CreateQuestionDialog() {
                 </div>
               ))}
               
-              <label className="w-16 h-16 flex items-center justify-center border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 transition">
+              <label className="w-16 h-16 flex items-center justify-center border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition">
                 {isUploading ? <Loader2 className="h-5 w-5 animate-spin text-slate-400" /> : <ImageIcon className="h-5 w-5 text-slate-400" />}
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
               </label>
@@ -136,16 +136,16 @@ export function CreateQuestionDialog() {
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Tags (cách nhau bởi dấu phẩy)</label>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5 block">Tags (cách nhau bởi dấu phẩy)</label>
             <Input 
               name="tags" 
               placeholder="Toán, Giải tích 1, C++" 
-              className="rounded-xl border-slate-200"
+              className="rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
             />
           </div>
 
           <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="ghost" onClick={() => setIsOpen(false)} className="rounded-xl hover:bg-slate-100 text-slate-600">Hủy</Button>
+            <Button type="button" variant="ghost" onClick={() => setIsOpen(false)} className="rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">Hủy</Button>
             <Button type="submit" disabled={isPending || isUploading} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl min-w-[120px]">
               {isPending ? (
                 <>

@@ -73,7 +73,7 @@ export async function submitAnswer(prevState: any, formData: FormData) {
   };
 
   const validated = AnswerSchema.safeParse(rawData);
-  if (!validated.success) return { error: validated.error.errors[0].message };
+  if (!validated.success) return { error: validated.error.issues[0]?.message };
 
   const { error } = await supabase.from("answers").insert({
     author_id: user.id,

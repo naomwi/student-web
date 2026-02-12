@@ -39,7 +39,7 @@ export function PostEditor() {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-3xl mx-auto bg-white p-8 rounded-lg border shadow-sm">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-3xl mx-auto bg-white dark:bg-slate-900 dark:border-slate-800 p-8 rounded-lg border shadow-sm">
       <div className="space-y-2">
         <Label htmlFor="title">Tiêu đề bài viết</Label>
         <Input 

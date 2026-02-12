@@ -37,18 +37,18 @@ export function ReportButton({ targetId, targetType }: { targetId: string, targe
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
-        <h3 className="font-bold text-lg mb-4 text-red-600">Báo cáo nội dung vi phạm</h3>
+      <div className="bg-white dark:bg-slate-900 dark:border dark:border-slate-800 p-6 rounded-lg w-full max-w-md shadow-lg">
+        <h3 className="font-bold text-lg mb-4 text-red-600 dark:text-red-500">Báo cáo nội dung vi phạm</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <textarea 
             name="reason" 
-            className="w-full border p-2 rounded" 
+            className="w-full border dark:border-slate-700 p-2 rounded dark:bg-slate-800 dark:text-white" 
             placeholder="Tại sao bạn báo cáo nội dung này?"
             required
             rows={4}
           />
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>Hủy</Button>
+            <Button type="button" variant="ghost" onClick={() => setIsOpen(false)} className="dark:text-slate-300 dark:hover:bg-slate-800">Hủy</Button>
             <Button type="submit" variant="destructive" disabled={isPending}>
               {isPending ? "Đang gửi..." : "Gửi báo cáo"}
             </Button>

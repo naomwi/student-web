@@ -107,7 +107,7 @@ export async function updatePasswordAction(prevState: any, formData: FormData) {
   const validated = ChangePasswordSchema.safeParse({ password, confirmPassword });
 
   if (!validated.success) {
-    return { error: validated.error.errors[0].message };
+    return { error: validated.error.issues[0]?.message };
   }
 
   const { error } = await supabase.auth.updateUser({
