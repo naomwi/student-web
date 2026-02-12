@@ -38,11 +38,18 @@ export async function getChannels(userId: string) {
 
      formattedDMs = (dmMemberships || []).map(m => {
         const otherMember = otherMembers?.find(om => om.channel_id === m.channel_id);
+        const profile = (otherMember?.profiles as any)?.[0] || (otherMember?.profiles as any); // Handle both array or single object just in case, but prioritize array access as requested
+        
+        // Strictly following user instruction to access as array [0]
+        const profileName = Array.isArray(otherMember?.profiles) 
+            ? otherMember?.profiles[0]?.full_name 
+            : (otherMember?.profiles as any)?.full_name;
+
         return {
            id: m.channel_id,
            type: "dm",
-           name: otherMember?.profiles?.full_name || "Người dùng",
-           avatar_url: otherMember?.profiles?.avatar_url
+           name: (otherMember?.profiles as any)?.[0]?.full_name || "Người dùng",
+           avatar_url: (otherMember?.profiles as any)?.[0]?.avatar_url
         };
      });
   }
