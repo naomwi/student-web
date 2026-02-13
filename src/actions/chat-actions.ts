@@ -68,49 +68,18 @@ export async function createDM(targetUserId: string) {
   if (!user) return { error: "Unauthorized" };
   if (user.id === targetUserId) return { error: "Không thể chat với chính mình" };
 
-  // Check if DM exists
-  // Logic: Find a channel of type 'dm' where both users are members
-  // This is complex in SQL/Supabase, simplified approach:
-  // Get all my DM channels, then check if targetUser is in any of them
-  const { data: myDMs } = await supabase
-     .from("channel_members")
-     .select("channel_id, channels!inner(type)")
-     .eq("user_id", user.id)
-     .eq("channels.type", "dm");
-  
-  const myDMIds = myDMs?.map(d => d.channel_id) || [];
-  
-  if (myDMIds.length > 0) {
-     const { data: existingDM } = await supabase
-        .from("channel_members")
-        .select("channel_id")
-        .in("channel_id", myDMIds)
-        .eq("user_id", targetUserId)
-        .maybeSingle();
-     
-     if (existingDM) return { id: existingDM.channel_id };
+  // Use Secure RPC to get or create DM channel
+  // This avoids RLS "policy violation" errors when inserting a channel before membership exists
+  const { data: channelId, error } = await supabase.rpc('create_dm_secure', { 
+    target_user_id: targetUserId 
+  });
+
+  if (error) {
+    console.error("Error creating DM:", error);
+    return { error: "Lỗi tạo hội thoại: " + error.message };
   }
-
-  // Create new DM
-  const { data: newChannel, error: createError } = await supabase
-     .from("channels")
-     .insert({ type: "dm" })
-     .select()
-     .single();
-
-  if (createError) return { error: createError.message };
-
-  // Add members
-  const { error: memberError } = await supabase
-     .from("channel_members")
-     .insert([
-        { channel_id: newChannel.id, user_id: user.id },
-        { channel_id: newChannel.id, user_id: targetUserId }
-     ]);
-
-  if (memberError) return { error: memberError.message };
   
-  return { id: newChannel.id };
+  return { id: channelId };
 }
 
 export async function searchUsers(query: string) {

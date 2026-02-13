@@ -20,16 +20,19 @@ export async function loginAction(values: z.infer<typeof LoginSchema>) {
   const isEmail = z.string().email().safeParse(identifier).success;
   
   if (!isEmail) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("email")
-      .eq("username", identifier)
-      .single();
-    
-    if (!profile) {
+    const { data: emailFound, error: rpcError } = await supabase.rpc("get_email_by_username", {
+      username_input: identifier,
+    });
+
+    if (rpcError) {
+      console.error("Error finding user by username:", rpcError);
+      return { error: "Lỗi hệ thống khi tìm kiếm tài khoản." };
+    }
+
+    if (!emailFound) {
       return { error: "Username không tồn tại." };
     }
-    email = profile.email;
+    email = emailFound;
   }
 
   const { error } = await supabase.auth.signInWithPassword({
