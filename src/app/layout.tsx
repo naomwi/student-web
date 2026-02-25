@@ -34,14 +34,13 @@ export default function RootLayout({
         className={`${beVietnamPro.variable} ${playfair.variable} font-sans antialiased`}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem={false}
-            forcedTheme="light"
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster position="top-right" richColors />
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster position="top-right" richColors />
         </ThemeProvider>
       </body>
     </html>

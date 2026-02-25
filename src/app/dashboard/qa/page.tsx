@@ -17,25 +17,25 @@ export default async function QAPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-           <h2 className="text-2xl font-bold tracking-tight">Hỏi đáp cộng đồng</h2>
-           <p className="text-gray-500 text-sm">Nơi giải đáp mọi thắc mắc học tập</p>
+          <h2 className="text-2xl font-bold tracking-tight">Hỏi đáp cộng đồng</h2>
+          <p className="text-gray-500 text-sm">Nơi giải đáp mọi thắc mắc học tập</p>
         </div>
         <CreateQuestionDialog />
       </div>
 
       <div className="space-y-4">
         {questions?.map((q) => (
-          <div key={q.id} className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition">
+          <div key={q.id} className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
             <div className="flex gap-4">
               {/* Vote/Status Column */}
               <div className="flex flex-col items-center gap-2 min-w-[60px] text-gray-500">
                 <span className="text-xl font-bold text-gray-700">0</span>
                 <span className="text-xs">votes</span>
-                
+
                 <div className={`mt-2 flex flex-col items-center p-2 rounded ${q.is_solved ? 'bg-green-100 text-green-700' : 'bg-gray-100'}`}>
-                   <span className="font-bold">{q.answers[0]?.count || 0}</span>
-                   <span className="text-xs">trả lời</span>
-                   {q.is_solved && <CheckCircle2 className="h-4 w-4 mt-1" />}
+                  <span className="font-bold">{q.answers[0]?.count || 0}</span>
+                  <span className="text-xs">trả lời</span>
+                  {q.is_solved && <CheckCircle2 className="h-4 w-4 mt-1" />}
                 </div>
               </div>
 
@@ -45,7 +45,7 @@ export default async function QAPage() {
                   <h3 className="text-lg font-bold text-blue-600 hover:underline mb-2">{q.title}</h3>
                 </Link>
                 <p className="text-gray-600 text-sm line-clamp-2 mb-3">{q.content}</p>
-                
+
                 <div className="flex justify-between items-center">
                   <div className="flex gap-2">
                     {q.tags?.map((tag: string) => (
@@ -54,7 +54,7 @@ export default async function QAPage() {
                       </span>
                     ))}
                   </div>
-                  
+
                   <div className="text-xs text-gray-500 flex items-center gap-1">
                     <span>đăng bởi <span className="font-semibold text-blue-700">{(q.profiles as any)?.full_name}</span></span>
                     <span>• {new Date(q.created_at).toLocaleDateString()}</span>
@@ -66,7 +66,7 @@ export default async function QAPage() {
         ))}
 
         {questions?.length === 0 && (
-          <div className="text-center py-10 text-gray-500 bg-white rounded-lg border">
+          <div className="text-center py-10 text-gray-500 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
             Chưa có câu hỏi nào. Hãy là người đầu tiên đặt câu hỏi!
           </div>
         )}

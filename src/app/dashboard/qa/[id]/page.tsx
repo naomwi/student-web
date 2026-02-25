@@ -37,7 +37,7 @@ export default async function QuestionDetailPage({ params }: Props) {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* QUESTION */}
-      <div className="bg-white p-6 rounded-lg border shadow-sm flex gap-4">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm flex gap-4">
         {/* Vote Logic (Mock UI) */}
         <div className="flex flex-col items-center gap-2 pt-2 text-gray-500">
           <button className="hover:bg-blue-50 hover:text-blue-600 p-2 rounded-full transition"><ChevronUp className="h-8 w-8" /></button>
@@ -83,7 +83,7 @@ export default async function QuestionDetailPage({ params }: Props) {
       {/* ANSWER LIST */}
       <div className="space-y-6">
         {answers?.map((ans) => (
-          <div key={ans.id} className={`p-6 rounded-lg border shadow-sm ${ans.is_accepted ? 'bg-green-50 border-green-200 ring-1 ring-green-300' : 'bg-white'}`}>
+          <div key={ans.id} className={`p-6 rounded-lg border shadow-sm ${ans.is_accepted ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 ring-1 ring-green-300 dark:ring-green-700' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'}`}>
             <div className="flex gap-4">
               {/* Status Icon */}
               <div className="w-8 pt-1 flex flex-col items-center">
@@ -117,7 +117,7 @@ export default async function QuestionDetailPage({ params }: Props) {
       </div>
 
       {/* ANSWER FORM */}
-      <div className="bg-white p-6 rounded-lg border shadow-sm">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
         <h3 className="font-bold mb-4">Câu trả lời của bạn</h3>
         <AnswerForm questionId={question.id} />
       </div>

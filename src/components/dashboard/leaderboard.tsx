@@ -11,14 +11,14 @@ export async function Leaderboard() {
     .limit(5);
 
   return (
-    <div className="bg-white dark:bg-[#1e1e1e] dark:border-white/5 rounded-xl border shadow-sm overflow-hidden h-fit">
-      <div className="p-4 border-b dark:border-white/5 bg-yellow-50 dark:bg-[#262626] flex items-center">
+    <div className="bg-white dark:bg-slate-900 dark:border-slate-800 rounded-xl border border-slate-200 shadow-sm overflow-hidden h-fit">
+      <div className="p-4 border-b border-yellow-100 dark:border-slate-800 bg-yellow-50 dark:bg-slate-900/50 flex items-center">
         <Trophy className="mr-2 h-5 w-5 text-yellow-600 dark:text-yellow-500" />
         <h3 className="font-bold text-yellow-800 dark:text-yellow-500">Bảng vàng vinh danh</h3>
       </div>
-      <div className="divide-y dark:divide-white/5">
+      <div className="divide-y divide-slate-100 dark:divide-slate-800">
         {topUsers?.map((u, idx) => (
-          <div key={u.id || idx} className="p-3 flex items-center justify-between hover:bg-yellow-50/30 dark:hover:bg-[#262626] transition">
+          <div key={u.id || idx} className="p-3 flex items-center justify-between hover:bg-yellow-50/30 dark:hover:bg-slate-800/50 transition">
             <div className="flex items-center gap-3">
               <span className={`font-bold w-6 text-center ${idx === 0 ? 'text-yellow-600 dark:text-yellow-500 text-lg' : 'text-gray-500 dark:text-slate-500'}`}>
                 #{idx + 1}
@@ -38,7 +38,7 @@ export async function Leaderboard() {
           </div>
         ))}
         {(!topUsers || topUsers.length === 0) && (
-          <p className="p-4 text-sm text-gray-500 text-center">Chưa có dữ liệu xếp hạng.</p>
+          <p className="p-4 text-sm text-gray-500 dark:text-slate-400 text-center">Chưa có dữ liệu xếp hạng.</p>
         )}
       </div>
     </div>

@@ -43,21 +43,21 @@ export default function FAQPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-8">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-serif font-bold text-slate-900 flex items-center justify-center gap-3">
+        <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100 flex items-center justify-center gap-3">
           <HelpCircle className="h-8 w-8 text-indigo-600" />
           Câu hỏi thường gặp
         </h1>
         <p className="text-slate-500">Giải đáp mọi thắc mắc về cách sử dụng UniConnect</p>
       </div>
 
-      <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50">
+      <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq) => (
             <AccordionItem key={faq.id} value={faq.id} className="border-b-slate-100">
-              <AccordionTrigger className="text-slate-800 font-semibold hover:text-indigo-600 hover:no-underline py-4 text-left">
+              <AccordionTrigger className="text-slate-800 dark:text-slate-200 font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 hover:no-underline py-4 text-left">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-slate-600 leading-relaxed pb-4">
+              <AccordionContent className="text-slate-600 dark:text-slate-400 leading-relaxed pb-4">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
@@ -65,9 +65,9 @@ export default function FAQPage() {
         </Accordion>
       </div>
 
-      <div className="text-center p-6 bg-indigo-50 rounded-2xl border border-indigo-100">
-        <p className="text-indigo-900 font-medium">Vẫn còn thắc mắc?</p>
-        <p className="text-indigo-600 text-sm mt-1">Liên hệ đội ngũ hỗ trợ qua email: support@uniconnect.edu.vn</p>
+      <div className="text-center p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800">
+        <p className="text-indigo-900 dark:text-indigo-300 font-medium">Vẫn còn thắc mắc?</p>
+        <p className="text-indigo-600 dark:text-indigo-400 text-sm mt-1">Liên hệ đội ngũ hỗ trợ qua email: support@uniconnect.edu.vn</p>
       </div>
     </div>
   );

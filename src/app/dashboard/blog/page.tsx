@@ -6,9 +6,9 @@ import { PlusCircle, Calendar, Hash } from "lucide-react";
 export default async function BlogListPage({ searchParams }: { searchParams: Promise<{ tag?: string }> }) {
   const params = await searchParams;
   const tagFilter = params.tag;
-  
+
   const supabase = await createClient();
-  
+
   let query = supabase
     .from("posts")
     .select("*, profiles(full_name, avatar_url)")
@@ -23,7 +23,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
 
   // Lấy danh sách tất cả Tags để làm sidebar filter (Demo đơn giản)
   // Trong thực tế nên có bảng Tags riêng hoặc query distinct tags
-  const allTags = ["Tips", "ExamPrep", "Internship", "Life", "Tech"]; 
+  const allTags = ["Tips", "ExamPrep", "Internship", "Life", "Tech"];
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 relative">
@@ -42,7 +42,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
 
         <div className="grid gap-6">
           {posts?.map((post) => (
-            <div key={post.id} className="group relative flex flex-col space-y-3 rounded-lg border p-6 hover:bg-slate-50 transition bg-white shadow-sm">
+            <div key={post.id} className="group relative flex flex-col space-y-3 rounded-lg border border-slate-200 dark:border-slate-800 p-6 hover:bg-slate-50 dark:hover:bg-slate-800 transition bg-white dark:bg-slate-900 shadow-sm">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-semibold text-blue-600">{(post.profiles as any)?.full_name || "Ẩn danh"}</span>
                 <span>•</span>
@@ -51,7 +51,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
                   {new Date(post.created_at).toLocaleDateString('vi-VN')}
                 </span>
               </div>
-              
+
               <Link href={`/dashboard/blog/${post.slug}`} className="block">
                 <h3 className="font-bold text-xl leading-snug group-hover:text-blue-700">
                   {post.title}
@@ -66,9 +66,9 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
                 </div>
               )}
 
-              <div 
+              <div
                 className="text-gray-500 text-sm line-clamp-2"
-                dangerouslySetInnerHTML={{ __html: post.content.replace(/<[^>]+>/g, '').substring(0, 200) + "..." }} 
+                dangerouslySetInnerHTML={{ __html: post.content.replace(/<[^>]+>/g, '').substring(0, 200) + "..." }}
               />
             </div>
           ))}
@@ -83,8 +83,8 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
 
       {/* Sidebar Filter (Width cố định 300px) */}
       <div className="hidden lg:block w-[300px] flex-shrink-0">
-        <div className="bg-white p-5 rounded-lg border shadow-sm sticky top-8">
-          <h3 className="font-semibold mb-4 flex items-center text-slate-800">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm sticky top-8">
+          <h3 className="font-semibold mb-4 flex items-center text-slate-800 dark:text-slate-200">
             <Hash className="mr-2 h-4 w-4 text-blue-600" /> Chủ đề phổ biến
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -92,8 +92,8 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
               Tất cả
             </Link>
             {allTags.map(tag => (
-              <Link 
-                key={tag} 
+              <Link
+                key={tag}
                 href={`/dashboard/blog?tag=${tag}`}
                 className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${tagFilter === tag ? 'bg-blue-600 text-white border-blue-600' : 'hover:bg-gray-100 text-gray-600'}`}
               >

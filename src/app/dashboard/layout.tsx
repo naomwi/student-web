@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BookOpen, FileText, Users, LogOut, LayoutGrid, Settings, MessageCircleQuestion, GraduationCap, HelpCircle, UserCheck, Map } from "lucide-react";
 import { UserNav } from "@/components/dashboard/user-nav";
 import { ChatWidget } from "@/components/chat/chat-widget";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -68,6 +69,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </div>
 
           <div className="flex items-center gap-4">
+            <ModeToggle />
             <UserNav user={{
               email: user.email || "",
               full_name: profile?.full_name || user.user_metadata.full_name,

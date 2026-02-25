@@ -35,24 +35,24 @@ export default function RoadmapPage() {
   return (
     <div className="space-y-8">
       <div>
-         <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-3">
-           <Map className="h-8 w-8 text-rose-600" strokeWidth={1.5} />
-           Lộ trình học tập (CNTT)
-         </h2>
-         <p className="text-slate-500 mt-2">Bản đồ môn học tham khảo cho sinh viên Công nghệ thông tin.</p>
+        <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-3">
+          <Map className="h-8 w-8 text-rose-600" strokeWidth={1.5} />
+          Lộ trình học tập (CNTT)
+        </h2>
+        <p className="text-slate-500 mt-2">Bản đồ môn học tham khảo cho sinh viên Công nghệ thông tin.</p>
       </div>
 
       <div className="relative border-l-4 border-slate-200 dark:border-slate-800 ml-6 space-y-12">
         {roadmaps.map((year, idx) => (
           <div key={idx} className="relative pl-8">
             {/* Timeline Dot */}
-            <div className="absolute -left-[14px] top-0 bg-white dark:bg-slate-950 border-4 border-indigo-600 w-6 h-6 rounded-full"></div>
-            
+            <div className="absolute -left-[14px] top-0 bg-white dark:bg-slate-950 border-4 border-indigo-600 dark:border-indigo-400 w-6 h-6 rounded-full"></div>
+
             <h3 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 mb-6">{year.year}</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {year.semesters.map((sem, sIdx) => (
-                <div key={sIdx} className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:border-indigo-200 hover:shadow-md transition">
+                <div key={sIdx} className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-md transition">
                   <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-4 pb-2 border-b border-slate-50 dark:border-slate-800">
                     {sem.name}
                   </h4>

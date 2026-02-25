@@ -27,7 +27,7 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-end gap-4">
         <div>
-          <h2 className="text-3xl font-serif font-bold text-slate-900 tracking-tight flex items-center gap-3">
+          <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-3">
             <div className="bg-rose-100 p-2 rounded-lg">
               <GraduationCap className="h-8 w-8 text-rose-600" strokeWidth={1.5} />
             </div>
@@ -41,7 +41,7 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
 
         {/* Sidebar Filters */}
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm sticky top-8">
+          <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm sticky top-8">
             <h3 className="font-bold mb-4 flex items-center text-slate-800 dark:text-slate-200">
               <Filter className="mr-2 h-4 w-4" /> Bộ lọc
             </h3>
@@ -68,7 +68,7 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
         <div className="lg:col-span-3">
           <div className="grid gap-4">
             {exams?.map((exam) => (
-              <div key={exam.id} className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-indigo-200 hover:shadow-md transition duration-300 flex items-center justify-between group">
+              <div key={exam.id} className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-indigo-200 hover:shadow-md transition duration-300 flex items-center justify-between group">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600 group-hover:scale-110 transition">
                     <FileText className="h-6 w-6" strokeWidth={1.5} />
