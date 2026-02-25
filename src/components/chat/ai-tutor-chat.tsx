@@ -48,17 +48,7 @@ export function AITutorChat() {
                 if (done) break;
 
                 const chunk = decoder.decode(value, { stream: true });
-
-                // Vercel AI SDK (ai@3) streamText returns standard format chunks: `0:"..."\n`
-                const lines = chunk.split('\n');
-                for (const line of lines) {
-                    if (line.startsWith('0:')) {
-                        try {
-                            const text = JSON.parse(line.substring(2));
-                            assistantContent += text;
-                        } catch (e) { }
-                    }
-                }
+                assistantContent += chunk;
 
                 setMessages(prev =>
                     prev.map(msg => msg.id === assistantId ? { ...msg, content: assistantContent } : msg)
@@ -109,8 +99,8 @@ export function AITutorChat() {
 
                             <div
                                 className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${message.role === "user"
-                                        ? "bg-indigo-600 text-white rounded-tr-sm"
-                                        : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-sm prose prose-sm dark:prose-invert"
+                                    ? "bg-indigo-600 text-white rounded-tr-sm"
+                                    : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-sm prose prose-sm dark:prose-invert"
                                     }`}
                                 style={{ whiteSpace: "pre-wrap" }}
                                 dangerouslySetInnerHTML={{ __html: message.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br/>') }}
