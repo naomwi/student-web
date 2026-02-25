@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Users, MapPin, ExternalLink } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface GroupProps {
   id: string;
@@ -34,8 +35,10 @@ export function GroupCard({ group }: { group: GroupProps }) {
     <div className="bg-white dark:bg-slate-900 dark:border-slate-800 p-5 rounded-lg border shadow-sm flex flex-col justify-between h-full hover:shadow-md transition">
       <div>
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-bold text-lg text-gray-900 dark:text-slate-100 line-clamp-1">{group.name}</h3>
-          <span className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs px-2 py-1 rounded-full font-medium flex items-center">
+          <Link href={`/dashboard/groups/${group.id}`} className="hover:underline hover:text-indigo-600 transition">
+            <h3 className="font-bold text-lg text-gray-900 dark:text-slate-100 line-clamp-1">{group.name}</h3>
+          </Link>
+          <span className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs px-2 py-1 rounded-full font-medium flex items-center shrink-0 ml-2">
             <Users className="h-3 w-3 mr-1" /> {group.memberCount}
           </span>
         </div>

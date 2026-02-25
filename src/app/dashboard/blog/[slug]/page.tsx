@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { CommentSection } from "@/components/blog/comment-section";
-import { Badge } from "@/components/ui/badge"; 
-import { Calendar, User } from "lucide-react";
+import { Calendar, User, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
@@ -15,7 +15,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await params;
   const supabase = await createClient();
-  
+
   const { data: post } = await supabase.from("posts").select("title, excerpt").eq("slug", slug).single();
 
   if (!post) return { title: "Bài viết không tồn tại" };
@@ -53,26 +53,33 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   // Sắp xếp comment mới nhất
-  const comments = post.comments?.sort((a: any, b: any) => 
+  const comments = post.comments?.sort((a: any, b: any) =>
     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   ) || [];
 
   return (
     <div className="max-w-3xl mx-auto py-8">
+      {/* Back Button */}
+      <div className="mb-6">
+        <Link href="/dashboard/blog" className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 transition font-medium">
+          <ArrowLeft className="mr-2 h-4 w-4" /> Quay lại danh sách
+        </Link>
+      </div>
+
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold mb-4">{post.title}</h1>
+        <h1 className="text-3xl font-extrabold mb-4 break-words">{post.title}</h1>
         <div className="flex items-center gap-4 text-sm text-gray-500">
           <div className="flex items-center gap-1">
-             <User className="h-4 w-4" />
-             <span className="font-medium text-blue-600">{post.profiles?.full_name}</span>
+            <User className="h-4 w-4" />
+            <span className="font-medium text-blue-600">{post.profiles?.full_name}</span>
           </div>
           <div className="flex items-center gap-1">
-             <Calendar className="h-4 w-4" />
-             <span>{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
+            <Calendar className="h-4 w-4" />
+            <span>{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
           </div>
         </div>
-        
+
         {/* Tags */}
         {post.tags && post.tags.length > 0 && (
           <div className="flex gap-2 mt-4">
@@ -86,8 +93,8 @@ export default async function BlogPostPage({ params }: Props) {
       </div>
 
       {/* Content */}
-      <div 
-        className="prose prose-lg max-w-none mb-12"
+      <div
+        className="prose prose-lg max-w-none mb-12 break-words text-wrap overflow-hidden [&_p]:break-words [&_a]:break-all"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 

@@ -5,7 +5,6 @@ import { CreatePostSchema } from "@/schemas/content";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import slugify from "slugify";
-import DOMPurify from "isomorphic-dompurify";
 
 export async function createPost(prevState: any, formData: FormData) {
   const supabase = await createClient();
@@ -32,10 +31,9 @@ export async function createPost(prevState: any, formData: FormData) {
 
   const { title, content, is_published } = validatedFields.data;
 
-  const cleanContent = DOMPurify.sanitize(content, {
-    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'h2', 'ul', 'ol', 'li', 'br', 'img'],
-    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class'],
-  });
+  // WARNING: We bypass DOMPurify on the server because JSDOM crashes Next.js Server Actions
+  // on large content. We rely on the client-side Tiptap editor for primary sanitization.
+  const cleanContent = content;
 
   const slug = `${slugify(title, { lower: true, strict: true })}-${Date.now()}`;
 

@@ -41,7 +41,7 @@ export function UserNav({ user }: UserNavProps) {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      
+
       <DropdownMenuContent className="w-64 z-[60] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-100 dark:border-slate-800 shadow-2xl rounded-2xl p-2 mt-2" align="end">
         <DropdownMenuLabel className="font-normal p-3 bg-slate-50 dark:bg-slate-800 rounded-xl mb-2">
           <div className="flex flex-col space-y-1">
@@ -54,12 +54,12 @@ export function UserNav({ user }: UserNavProps) {
             </p>
           </div>
         </DropdownMenuLabel>
-        
+
         <DropdownMenuGroup>
           <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 dark:focus:bg-indigo-900/30 focus:text-indigo-700 dark:focus:text-indigo-300 cursor-pointer py-2.5">
             <Link href="/dashboard/settings">
               <User className="mr-2 h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
-              <span className="font-medium">Hồ sơ cá nhân</span>
+              <span className="font-medium">Hồ sơ cá nhân (Cài đặt)</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 dark:focus:bg-indigo-900/30 focus:text-indigo-700 dark:focus:text-indigo-300 cursor-pointer py-2.5">
@@ -69,10 +69,10 @@ export function UserNav({ user }: UserNavProps) {
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        
+
         <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 my-2" />
-        
-        <DropdownMenuItem 
+
+        <DropdownMenuItem
           className="rounded-lg text-rose-600 dark:text-rose-400 focus:bg-rose-50 dark:focus:bg-rose-900/30 focus:text-rose-700 dark:focus:text-rose-300 cursor-pointer py-2.5"
           onClick={async () => await signOutAction()}
         >

@@ -7,7 +7,7 @@ import Link from "next/link";
 export default async function ExamBankPage({ searchParams }: { searchParams: Promise<{ year?: string }> }) {
   const params = await searchParams;
   const yearFilter = params.year;
-  
+
   const supabase = await createClient();
 
   // Fetch tài liệu có category = 'exam'
@@ -18,7 +18,7 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
     .order("created_at", { ascending: false });
 
   // (Nếu có cột year trong documents thì filter, hiện tại chưa có nên demo fetch all)
-  
+
   const { data: exams } = await query;
 
   const years = ["2023-2024", "2022-2023", "2021-2022"];
@@ -27,25 +27,25 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-end gap-4">
         <div>
-           <h2 className="text-3xl font-serif font-bold text-slate-900 tracking-tight flex items-center gap-3">
-             <div className="bg-rose-100 p-2 rounded-lg">
-               <GraduationCap className="h-8 w-8 text-rose-600" strokeWidth={1.5} />
-             </div>
-             Ngân hàng Đề thi
-           </h2>
-           <p className="text-slate-500 mt-2">Tổng hợp đề thi các năm, sắp xếp khoa học.</p>
+          <h2 className="text-3xl font-serif font-bold text-slate-900 tracking-tight flex items-center gap-3">
+            <div className="bg-rose-100 p-2 rounded-lg">
+              <GraduationCap className="h-8 w-8 text-rose-600" strokeWidth={1.5} />
+            </div>
+            Ngân hàng Đề thi
+          </h2>
+          <p className="text-slate-500 mt-2">Tổng hợp đề thi các năm, sắp xếp khoa học.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        
+
         {/* Sidebar Filters */}
         <div className="space-y-6">
           <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm sticky top-8">
             <h3 className="font-bold mb-4 flex items-center text-slate-800 dark:text-slate-200">
               <Filter className="mr-2 h-4 w-4" /> Bộ lọc
             </h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="text-xs font-semibold text-slate-500 uppercase mb-2 block">Năm học</label>
@@ -88,15 +88,15 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
                     </div>
                   </div>
                 </div>
-                
+
                 <DownloadBtn path={exam.storage_path} fileName={exam.file_name} />
               </div>
             ))}
 
-            {exams?.length === 0 && (
+            {(!exams || exams.length === 0) && (
               <div className="text-center py-16 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
                 <GraduationCap className="h-12 w-12 text-slate-300 mx-auto mb-3" />
-                <p className="text-slate-500 font-medium">Chưa có đề thi nào.</p>
+                <p className="text-slate-500 font-medium">Chưa có đề thi nào (hoặc đang cấu hình Database).</p>
                 <p className="text-slate-400 text-sm">Hãy vào mục "Tài liệu" để upload và chọn danh mục Exam.</p>
               </div>
             )}

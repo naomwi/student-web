@@ -3,8 +3,8 @@
 import { useTransition, useRef } from "react";
 import { addComment } from "@/actions/comment-actions";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
-import Image from "next/image";
 import { ReportButton } from "@/components/common/report-button";
 
 interface Comment {
@@ -47,18 +47,12 @@ export function CommentSection({ postId, comments }: { postId: string, comments:
       <div className="space-y-6">
         {comments.map((comment) => (
           <div key={comment.id} className="flex gap-4">
-             <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
-               {comment.profiles?.avatar_url ? (
-                 <Image 
-                   src={comment.profiles.avatar_url} 
-                   alt="Avt" 
-                   fill
-                   className="object-cover"
-                 />
-               ) : (
-                 <User className="h-6 w-6 text-gray-500" />
-               )}
-            </div>
+            <Avatar className="h-10 w-10 border shadow-sm">
+              <AvatarImage src={comment.profiles?.avatar_url || ""} />
+              <AvatarFallback className="bg-slate-100 text-slate-500">
+                {comment.profiles?.full_name?.charAt(0) || <User className="h-5 w-5" />}
+              </AvatarFallback>
+            </Avatar>
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="font-semibold">{comment.profiles?.full_name || "Người dùng ẩn danh"}</span>

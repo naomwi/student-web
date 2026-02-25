@@ -23,18 +23,20 @@ export function MentorCard({ mentor, currentUserId }: { mentor: Mentor; currentU
 
   const handleContact = () => {
     if (!currentUserId) {
-        toast.error("Vui lòng đăng nhập để liên hệ.");
-        return;
+      toast.error("Vui lòng đăng nhập để liên hệ.");
+      return;
     }
-    
+
     startTransition(async () => {
       const result = await createDM(mentor.id);
       if (result.error) {
         toast.error(result.error);
       } else {
         toast.success(`Đã kết nối với ${mentor.full_name}!`, {
-            description: "Hãy mở hộp chat (góc phải dưới) để bắt đầu nhắn tin."
+          description: "Hộp thoại chat đã được mở."
         });
+        // Dispatch open-chat event so ChatWidget handles it
+        window.dispatchEvent(new CustomEvent("open-chat", { detail: { channelId: result.id } }));
       }
     });
   };
@@ -46,7 +48,7 @@ export function MentorCard({ mentor, currentUserId }: { mentor: Mentor; currentU
           <Avatar className="h-full w-full">
             <AvatarImage src={mentor.avatar_url} className="object-cover" />
             <AvatarFallback className="text-xl font-bold text-indigo-600 bg-indigo-100">
-                {mentor.full_name?.[0]}
+              {mentor.full_name?.[0]}
             </AvatarFallback>
           </Avatar>
         </div>
@@ -83,20 +85,20 @@ export function MentorCard({ mentor, currentUserId }: { mentor: Mentor; currentU
           </span>
         ))}
         {mentor.skills && mentor.skills.length > 4 && (
-             <span className="text-xs text-slate-400 py-1">+ {mentor.skills.length - 4}</span>
+          <span className="text-xs text-slate-400 py-1">+ {mentor.skills.length - 4}</span>
         )}
       </div>
 
       <div className="pt-4 border-t border-slate-50 dark:border-slate-800 mt-auto">
-        <Button 
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl"
-            onClick={handleContact}
-            disabled={isPending || mentor.id === currentUserId}
+        <Button
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl"
+          onClick={handleContact}
+          disabled={isPending || mentor.id === currentUserId}
         >
           {isPending ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
-              <MessageSquare className="mr-2 h-4 w-4" />
+            <MessageSquare className="mr-2 h-4 w-4" />
           )}
           {mentor.id === currentUserId ? "Bạn (Me)" : "Liên hệ"}
         </Button>

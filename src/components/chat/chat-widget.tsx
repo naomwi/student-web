@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, X } from "lucide-react";
 import { ChatWindow } from "./chat-window";
 
 export function ChatWidget({ userId }: { userId: string }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenChat = () => setIsOpen(true);
+    window.addEventListener("open-chat", handleOpenChat);
+    return () => window.removeEventListener("open-chat", handleOpenChat);
+  }, []);
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
@@ -18,9 +24,8 @@ export function ChatWidget({ userId }: { userId: string }) {
 
       <Button
         size="icon"
-        className={`h-14 w-14 rounded-full shadow-xl transition-transform duration-300 ${
-          isOpen ? "rotate-90 bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-300" : "bg-indigo-600 hover:bg-indigo-700 text-white hover:scale-110"
-        }`}
+        className={`h-14 w-14 rounded-full shadow-xl transition-transform duration-300 ${isOpen ? "rotate-90 bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-300" : "bg-indigo-600 hover:bg-indigo-700 text-white hover:scale-110"
+          }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-7 w-7" />}

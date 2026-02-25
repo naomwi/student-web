@@ -4,7 +4,7 @@ import { DownloadBtn } from "@/components/documents/download-btn";
 import { FileText, Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link"; 
+import Link from "next/link";
 
 export default async function DocumentsPage({ searchParams }: { searchParams: Promise<{ q?: string; cat?: string }> }) {
   const params = await searchParams;
@@ -18,8 +18,8 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
       {/* Header & Upload */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-           <h2 className="text-2xl font-bold tracking-tight text-foreground">Kho tài liệu học tập</h2>
-           <p className="text-muted-foreground text-sm">Chia sẻ và tìm kiếm tài liệu ôn thi, bài giảng...</p>
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Kho tài liệu học tập</h2>
+          <p className="text-muted-foreground text-sm">Chia sẻ và tìm kiếm tài liệu ôn thi, bài giảng...</p>
         </div>
       </div>
 
@@ -30,15 +30,15 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
         <form className="flex-1 flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input 
-              name="q" 
-              placeholder="Tìm kiếm tài liệu..." 
+            <Input
+              name="q"
+              placeholder="Tìm kiếm tài liệu..."
               defaultValue={search}
               className="pl-8 bg-background"
             />
           </div>
-          <select 
-            name="cat" 
+          <select
+            name="cat"
             defaultValue={category}
             className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground"
           >
@@ -57,16 +57,16 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
         <div className="p-4 border-b border-border bg-muted/40 flex justify-between items-center">
           <h3 className="font-semibold text-sm text-foreground">Kết quả tìm kiếm ({docs.length})</h3>
         </div>
-        
+
         <div className="divide-y divide-border">
           {docs.map((doc) => (
             <div key={doc.id} className="p-4 flex items-center justify-between hover:bg-muted/50 transition">
-              <div className="flex items-center space-x-4">
-                <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+              <div className="flex items-center space-x-4 min-w-0 flex-1 mr-4">
+                <div className="h-10 w-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary shrink-0">
                   <FileText className="h-5 w-5" />
                 </div>
-                <div>
-                  <p className="font-medium text-foreground">{doc.file_name}</p>
+                <div className="min-w-0">
+                  <p className="font-medium text-foreground line-clamp-1 break-all" title={doc.file_name}>{doc.file_name}</p>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <span className="bg-muted px-2 py-0.5 rounded uppercase border border-border">{doc.category}</span>
                     <span>•</span>
@@ -76,7 +76,7 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
                   </div>
                 </div>
               </div>
-              
+
               <DownloadBtn path={doc.storage_path} fileName={doc.file_name} />
             </div>
           ))}

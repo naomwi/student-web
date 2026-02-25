@@ -6,12 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreatePostSchema } from "@/schemas/content";
 import { createPost } from "@/actions/blog-actions";
 import { z } from "zod";
-import Tiptap from "@/components/editor/tiptap";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Link from "next/link";
+import Tiptap from "@/components/editor/tiptap";
 
 export function PostEditor() {
   const [isPending, startTransition] = useTransition();
@@ -57,7 +58,7 @@ export function PostEditor() {
         <Label>Nội dung</Label>
         <Tiptap
           content={form.watch("content")}
-          onChange={(html) => form.setValue("content", html)}
+          onChange={(html: string) => form.setValue("content", html)}
         />
         {form.formState.errors.content && (
           <p className="text-red-500 text-sm">{form.formState.errors.content.message}</p>
@@ -65,7 +66,9 @@ export function PostEditor() {
       </div>
 
       <div className="flex justify-end gap-4">
-        <Button type="button" variant="ghost" onClick={() => router.back()}>Hủy bỏ</Button>
+        <Button type="button" variant="ghost" asChild>
+          <Link href="/dashboard/blog">Hủy bỏ</Link>
+        </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Đang đăng..." : "Đăng bài ngay"}
         </Button>

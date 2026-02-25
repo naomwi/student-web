@@ -28,7 +28,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             </div>
             <h2 className="text-2xl font-serif font-bold text-slate-800 dark:text-slate-200 tracking-tight">UniConnect</h2>
           </div>
-          
+
           <div className="space-y-1">
             <NavItem href="/dashboard" icon={<LayoutGrid />}>Tổng quan</NavItem>
             <NavItem href="/dashboard/blog" icon={<BookOpen />}>Học thuật (Blog)</NavItem>
@@ -44,7 +44,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
         <div className="mt-auto p-8 pt-0">
           <NavItem href="/dashboard/settings" icon={<Settings />}>Cài đặt</NavItem>
-          
+
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
             <form action="/auth/signout" method="post">
               <button className="flex w-full items-center gap-3 px-4 py-3 text-sm font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-all duration-200">
@@ -57,16 +57,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
       </aside>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 md:ml-[320px] p-4 md:p-8 min-h-screen">
+      <main className="flex-1 min-w-0 md:ml-[320px] p-4 md:p-8 min-h-screen flex flex-col max-w-full overflow-hidden">
         {/* HEADER */}
-        <header className="flex justify-between items-center mb-10 relative z-40">
-          <div>
-            <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100">
+        <header className="flex justify-between items-center mb-10 relative z-40 shrink-0">
+          <div className="min-w-0 flex-1 mr-4">
+            <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100 truncate">
               Xin chào, {user.user_metadata.full_name || profile?.full_name?.split(' ').pop()}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">Hôm nay bạn muốn học điều gì?</p>
+            <p className="text-slate-500 dark:text-slate-400 font-medium mt-1 truncate">Hôm nay bạn muốn học điều gì?</p>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <UserNav user={{
               email: user.email || "",

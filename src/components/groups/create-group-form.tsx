@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export function CreateGroupForm({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
@@ -17,6 +19,7 @@ export function CreateGroupForm({ onClose }: { onClose: () => void }) {
       } else {
         toast.success("Tạo nhóm thành công!");
         onClose();
+        router.refresh();
       }
     });
   };

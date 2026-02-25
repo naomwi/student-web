@@ -17,10 +17,10 @@ interface Channel {
 }
 
 interface UserResult {
-    id: string;
-    full_name: string;
-    avatar_url: string;
-    email: string;
+  id: string;
+  full_name: string;
+  avatar_url: string;
+  email: string;
 }
 
 export function ChatWindow({ userId, onClose }: { userId: string; onClose: () => void }) {
@@ -28,7 +28,7 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
   const [channels, setChannels] = useState<{ global: Channel[], groups: Channel[], dms: Channel[] }>({ global: [], groups: [], dms: [] });
   const [loading, setLoading] = useState(true);
-  
+
   // Search State
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<UserResult[]>([]);
@@ -43,7 +43,41 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
 
   useEffect(() => {
     loadChannels();
+
+    const handleOpenChat = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const targetId = customEvent.detail?.channelId;
+      if (targetId) {
+        // Lấy danh sách channel mới nhất rồi mở tab chat
+        loadChannels().then(() => {
+          // Effect checkPendingChannel bên dưới sẽ tự bắt dms có targetId
+        });
+
+        // Thử chọn ngay nếu đã có sẵn trong state
+        const found = channels.dms.find(c => c.id === targetId);
+        if (found) {
+          handleSelectChannel(found);
+        } else {
+          // Đánh dấu cần mở
+          sessionStorage.setItem("pending_open_channel", targetId);
+        }
+      }
+    };
+
+    window.addEventListener("open-chat", handleOpenChat);
+    return () => window.removeEventListener("open-chat", handleOpenChat);
   }, [userId]);
+
+  useEffect(() => {
+    const pendingId = sessionStorage.getItem("pending_open_channel");
+    if (pendingId) {
+      const found = channels.dms.find(c => c.id === pendingId);
+      if (found) {
+        handleSelectChannel(found);
+        sessionStorage.removeItem("pending_open_channel");
+      }
+    }
+  }, [channels]);
 
   const handleSelectChannel = (channel: Channel) => {
     setSelectedChannel(channel);
@@ -57,34 +91,34 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
   };
 
   const handleSearch = (query: string) => {
-      setSearchQuery(query);
-      if (query.length > 1) {
-          startSearch(async () => {
-              const results = await searchUsers(query);
-              setSearchResults(results as any);
-          });
-      } else {
-          setSearchResults([]);
-      }
+    setSearchQuery(query);
+    if (query.length > 1) {
+      startSearch(async () => {
+        const results = await searchUsers(query);
+        setSearchResults(results as any);
+      });
+    } else {
+      setSearchResults([]);
+    }
   };
 
   const handleStartDM = (targetUser: UserResult) => {
-      startCreateDM(async () => {
-          const result = await createDM(targetUser.id);
-          if (result.id) {
-              setSearchQuery("");
-              setSearchResults([]);
-              // Optimistically add or select channel
-              const newChannel: Channel = {
-                  id: result.id,
-                  name: targetUser.full_name,
-                  type: "dm",
-                  avatar_url: targetUser.avatar_url
-              };
-              handleSelectChannel(newChannel);
-              loadChannels(); // Refresh list in background
-          }
-      });
+    startCreateDM(async () => {
+      const result = await createDM(targetUser.id);
+      if (result.id) {
+        setSearchQuery("");
+        setSearchResults([]);
+        // Optimistically add or select channel
+        const newChannel: Channel = {
+          id: result.id,
+          name: targetUser.full_name,
+          type: "dm",
+          avatar_url: targetUser.avatar_url
+        };
+        handleSelectChannel(newChannel);
+        loadChannels(); // Refresh list in background
+      }
+    });
   };
 
   return (
@@ -98,15 +132,15 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
         )}
         <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 flex-1 truncate flex items-center gap-2">
           {activeTab === "list" ? "Tin nhắn" : (
-             <>
-               {selectedChannel?.type === 'dm' && (
-                 <Avatar className="h-6 w-6">
-                    <AvatarImage src={selectedChannel.avatar_url} />
-                    <AvatarFallback>{selectedChannel.name[0]}</AvatarFallback>
-                 </Avatar>
-               )}
-               {selectedChannel?.name || "Chat"}
-             </>
+            <>
+              {selectedChannel?.type === 'dm' && (
+                <Avatar className="h-6 w-6">
+                  <AvatarImage src={selectedChannel.avatar_url} />
+                  <AvatarFallback>{selectedChannel.name[0]}</AvatarFallback>
+                </Avatar>
+              )}
+              {selectedChannel?.name || "Chat"}
+            </>
           )}
         </h3>
       </div>
@@ -115,91 +149,91 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
       <div className="flex-1 overflow-hidden relative">
         {activeTab === "list" ? (
           <div className="h-full overflow-y-auto p-2 space-y-6">
-            
+
             {/* Global Channels */}
             <div className="space-y-1">
-               <h4 className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Chung</h4>
-               {channels.global.map(c => (
-                 <ChannelItem key={c.id} channel={c} icon={<Hash className="h-4 w-4" />} onClick={() => handleSelectChannel(c)} />
-               ))}
+              <h4 className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Chung</h4>
+              {channels.global.map(c => (
+                <ChannelItem key={c.id} channel={c} icon={<Hash className="h-4 w-4" />} onClick={() => handleSelectChannel(c)} />
+              ))}
             </div>
 
             {/* Group Channels */}
             <div className="space-y-1">
-               <h4 className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nhóm học tập</h4>
-               {channels.groups.length === 0 ? (
-                 <p className="px-2 text-sm text-slate-500 italic">Chưa tham gia nhóm nào.</p>
-               ) : (
-                 channels.groups.map(c => (
-                   <ChannelItem key={c.id} channel={c} icon={<Users className="h-4 w-4" />} onClick={() => handleSelectChannel(c)} />
-                 ))
-               )}
+              <h4 className="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nhóm học tập</h4>
+              {channels.groups.length === 0 ? (
+                <p className="px-2 text-sm text-slate-500 italic">Chưa tham gia nhóm nào.</p>
+              ) : (
+                channels.groups.map(c => (
+                  <ChannelItem key={c.id} channel={c} icon={<Users className="h-4 w-4" />} onClick={() => handleSelectChannel(c)} />
+                ))
+              )}
             </div>
 
             {/* DM Channels */}
             <div className="space-y-1">
-               <div className="flex justify-between items-center px-2 mb-2">
-                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Tin nhắn riêng</h4>
-               </div>
-               
-               {/* User Search */}
-               <div className="px-2 mb-3 relative">
-                   <div className="relative">
-                       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
-                       <Input 
-                          placeholder="Tìm bạn bè..." 
-                          className="pl-9 h-9 text-sm bg-slate-50 dark:bg-slate-800 border-none" 
-                          value={searchQuery}
-                          onChange={(e) => handleSearch(e.target.value)}
-                       />
-                       {isSearching && <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin text-indigo-500" />}
-                   </div>
+              <div className="flex justify-between items-center px-2 mb-2">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Tin nhắn riêng</h4>
+              </div>
 
-                   {/* Search Results Dropdown */}
-                   {searchQuery.length > 1 && (
-                       <div className="absolute top-10 left-2 right-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg shadow-xl z-20 max-h-[200px] overflow-y-auto">
-                           {searchResults.length === 0 && !isSearching ? (
-                               <p className="p-3 text-sm text-slate-500 text-center">Không tìm thấy người dùng.</p>
-                           ) : (
-                               searchResults.map(user => (
-                                   <button 
-                                      key={user.id} 
-                                      className="w-full flex items-center gap-3 p-3 hover:bg-indigo-50 dark:hover:bg-slate-700 transition text-left"
-                                      onClick={() => handleStartDM(user)}
-                                      disabled={isCreatingDM}
-                                   >
-                                       <Avatar className="h-8 w-8">
-                                          <AvatarImage src={user.avatar_url} />
-                                          <AvatarFallback>{user.full_name[0]}</AvatarFallback>
-                                       </Avatar>
-                                       <div>
-                                           <p className="font-medium text-sm text-slate-800 dark:text-slate-200">{user.full_name}</p>
-                                           <p className="text-xs text-slate-400 truncate">{user.email}</p>
-                                       </div>
-                                   </button>
-                               ))
-                           )}
-                       </div>
-                   )}
-               </div>
+              {/* User Search */}
+              <div className="px-2 mb-3 relative">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
+                  <Input
+                    placeholder="Tìm bạn bè..."
+                    className="pl-9 h-9 text-sm bg-slate-50 dark:bg-slate-800 border-none"
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                  />
+                  {isSearching && <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin text-indigo-500" />}
+                </div>
 
-               {channels.dms.length === 0 ? (
-                 <p className="px-2 text-sm text-slate-500 italic">Chưa có tin nhắn nào.</p>
-               ) : (
-                 channels.dms.map(c => (
-                   <ChannelItem 
-                      key={c.id} 
-                      channel={c} 
-                      icon={
-                          <Avatar className="h-6 w-6">
-                            <AvatarImage src={c.avatar_url} />
-                            <AvatarFallback>{c.name[0]}</AvatarFallback>
+                {/* Search Results Dropdown */}
+                {searchQuery.length > 1 && (
+                  <div className="absolute top-10 left-2 right-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg shadow-xl z-20 max-h-[200px] overflow-y-auto">
+                    {searchResults.length === 0 && !isSearching ? (
+                      <p className="p-3 text-sm text-slate-500 text-center">Không tìm thấy người dùng.</p>
+                    ) : (
+                      searchResults.map(user => (
+                        <button
+                          key={user.id}
+                          className="w-full flex items-center gap-3 p-3 hover:bg-indigo-50 dark:hover:bg-slate-700 transition text-left"
+                          onClick={() => handleStartDM(user)}
+                          disabled={isCreatingDM}
+                        >
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={user.avatar_url} />
+                            <AvatarFallback>{user.full_name[0]}</AvatarFallback>
                           </Avatar>
-                      } 
-                      onClick={() => handleSelectChannel(c)} 
-                   />
-                 ))
-               )}
+                          <div>
+                            <p className="font-medium text-sm text-slate-800 dark:text-slate-200">{user.full_name}</p>
+                            <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                          </div>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {channels.dms.length === 0 ? (
+                <p className="px-2 text-sm text-slate-500 italic">Chưa có tin nhắn nào.</p>
+              ) : (
+                channels.dms.map(c => (
+                  <ChannelItem
+                    key={c.id}
+                    channel={c}
+                    icon={
+                      <Avatar className="h-6 w-6">
+                        <AvatarImage src={c.avatar_url} />
+                        <AvatarFallback>{c.name[0]}</AvatarFallback>
+                      </Avatar>
+                    }
+                    onClick={() => handleSelectChannel(c)}
+                  />
+                ))
+              )}
             </div>
           </div>
         ) : (
