@@ -41,13 +41,13 @@ export default async function QuestionDetailPage({ params }: Props) {
         {/* Vote Logic (Mock UI) */}
         <div className="flex flex-col items-center gap-2 pt-2 text-gray-500">
           <button className="hover:bg-blue-50 hover:text-blue-600 p-2 rounded-full transition"><ChevronUp className="h-8 w-8" /></button>
-          <span className="font-bold text-xl text-gray-800">{question.upvotes || 12}</span>
+          <span className="font-bold text-xl text-gray-800 dark:text-slate-200">{question.upvotes || 12}</span>
           <button className="hover:bg-red-50 hover:text-red-500 p-2 rounded-full transition"><ChevronDown className="h-8 w-8" /></button>
         </div>
 
         <div className="flex-1">
           <h1 className="text-2xl font-bold mb-4 text-blue-800">{question.title}</h1>
-          <div className="prose max-w-none text-gray-800 mb-6 whitespace-pre-wrap">
+          <div className="prose max-w-none text-gray-800 dark:text-slate-200 mb-6 whitespace-pre-wrap">
             {question.content}
           </div>
 
@@ -95,7 +95,7 @@ export default async function QuestionDetailPage({ params }: Props) {
               </div>
 
               <div className="flex-1">
-                <div className="mb-4 text-gray-800 whitespace-pre-wrap">{ans.content}</div>
+                <div className="mb-4 text-gray-800 dark:text-slate-200 whitespace-pre-wrap">{ans.content}</div>
 
                 <div className="flex justify-between items-center text-sm">
                   {ans.is_accepted ? (

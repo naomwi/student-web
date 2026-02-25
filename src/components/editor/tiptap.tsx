@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image'; // Cần cài thêm
 import { Button } from '@/components/ui/button';
-import { Bold, Italic, List, Image as ImageIcon } from 'lucide-react';
+import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Code, Undo, Redo, Image as ImageIcon } from 'lucide-react';
 import { createClient } from "@/lib/supabase/client";
 
 interface TiptapProps {
@@ -22,8 +22,8 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
     content,
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[300px] border rounded-md p-4',
-      },
+        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl dark:prose-invert dark:text-slate-200 mx-auto focus:outline-none min-h-[300px] border border-slate-200 dark:border-slate-800 rounded-md p-4',
+      }
     },
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
@@ -34,18 +34,18 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
-    
+
     input.onchange = async () => {
       if (input.files?.length) {
         const file = input.files[0];
         const supabase = createClient();
         const user = (await supabase.auth.getUser()).data.user;
-        
+
         if (!user) return alert("Vui lòng đăng nhập để upload ảnh");
 
         // Sửa lại đường dẫn: Đưa user.id lên đầu để khớp với RLS Policy
         const filePath = `${user.id}/blog-images/${Date.now()}-${file.name}`;
-        
+
         // Upload
         const { error } = await supabase.storage
           .from('student-docs') // Tạm dùng bucket này hoặc tạo bucket mới 'blog-images'
@@ -62,11 +62,11 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
           .getPublicUrl(filePath);
 
         if (data.publicUrl) {
-           editor?.chain().focus().setImage({ src: data.publicUrl }).run();
+          editor?.chain().focus().setImage({ src: data.publicUrl }).run();
         }
       }
     };
-    
+
     input.click();
   };
 
@@ -74,13 +74,13 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
 
   return (
     <div className="space-y-2">
-      <div className="flex gap-2 border-b pb-2">
+      <div className="flex flex-wrap gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         <Button
           variant="ghost"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'bg-slate-200' : ''}
+          className={editor.isActive('bold') ? 'bg-slate-200 dark:bg-slate-800' : ''}
         >
           <Bold className="w-4 h-4" />
         </Button>
@@ -89,7 +89,7 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'bg-slate-200' : ''}
+          className={editor.isActive('italic') ? 'bg-slate-200 dark:bg-slate-800' : ''}
         >
           <Italic className="w-4 h-4" />
         </Button>
@@ -97,11 +97,104 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
           variant="ghost"
           size="sm"
           type="button"
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          className={editor.isActive('strike') ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Strikethrough className="w-4 h-4" />
+        </Button>
+
+        <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 self-center"></div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          className={editor.isActive('heading', { level: 1 }) ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Heading1 className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          className={editor.isActive('heading', { level: 2 }) ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Heading2 className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+          className={editor.isActive('heading', { level: 3 }) ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Heading3 className="w-4 h-4" />
+        </Button>
+
+        <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 self-center"></div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('bulletList') ? 'bg-slate-200' : ''}
+          className={editor.isActive('bulletList') ? 'bg-slate-200 dark:bg-slate-800' : ''}
         >
           <List className="w-4 h-4" />
         </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={editor.isActive('orderedList') ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <ListOrdered className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          className={editor.isActive('blockquote') ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Quote className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={editor.isActive('codeBlock') ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Code className="w-4 h-4" />
+        </Button>
+
+        <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 self-center"></div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().undo()}
+        >
+          <Undo className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().redo()}
+        >
+          <Redo className="w-4 h-4" />
+        </Button>
+
+        <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 self-center"></div>
+
         <Button
           variant="ghost"
           size="sm"
@@ -111,7 +204,7 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
           <ImageIcon className="w-4 h-4" />
         </Button>
       </div>
-      
+
       <EditorContent editor={editor} />
     </div>
   );
