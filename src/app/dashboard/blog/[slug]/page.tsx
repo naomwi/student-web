@@ -68,7 +68,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold mb-4 break-words">{post.title}</h1>
+        <h1 className="text-3xl font-extrabold mb-4 break-words text-slate-900 dark:text-slate-100">{post.title}</h1>
         <div className="flex items-center gap-4 text-sm text-gray-500">
           <div className="flex items-center gap-1">
             <User className="h-4 w-4" />
@@ -84,7 +84,7 @@ export default async function BlogPostPage({ params }: Props) {
         {post.tags && post.tags.length > 0 && (
           <div className="flex gap-2 mt-4">
             {post.tags.map((tag: string) => (
-              <span key={tag} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+              <span key={tag} className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs px-2 py-1 rounded-full">
                 #{tag}
               </span>
             ))}
@@ -94,11 +94,11 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Content */}
       <div
-        className="prose prose-lg max-w-none mb-12 break-words text-wrap overflow-hidden [&_p]:break-words [&_a]:break-all"
+        className="prose prose-lg dark:prose-invert max-w-none mb-12 break-words text-wrap overflow-hidden [&_p]:break-words [&_a]:break-all"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 
-      <hr className="my-8 border-gray-200" />
+      <hr className="my-8 border-gray-200 dark:border-slate-800" />
 
       {/* Comments */}
       <CommentSection postId={post.id} comments={comments} />
