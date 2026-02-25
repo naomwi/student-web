@@ -24,36 +24,34 @@ export async function getChannels(userId: string) {
     .select("channel_id, channels!inner(*)")
     .eq("user_id", userId)
     .eq("channels.type", "dm");
-  
+
   const dmChannelIds = dmMemberships?.map(m => m.channel_id) || [];
-  
+
   let formattedDMs: any[] = [];
   if (dmChannelIds.length > 0) {
-     // Fetch the *other* member for each DM channel to get the name
-     const { data: otherMembers } = await supabase
-        .from("channel_members")
-        .select("channel_id, profiles(full_name, avatar_url)")
-        .in("channel_id", dmChannelIds)
-        .neq("user_id", userId);
+    // Fetch the *other* member for each DM channel to get the name
+    const { data: otherMembers } = await supabase
+      .from("channel_members")
+      .select("channel_id, profiles(full_name, avatar_url)")
+      .in("channel_id", dmChannelIds)
+      .neq("user_id", userId);
 
-     formattedDMs = (dmMemberships || []).map(m => {
-        const otherMember = otherMembers?.find(om => om.channel_id === m.channel_id);
-        const profile = (otherMember?.profiles as any)?.[0] || (otherMember?.profiles as any); // Handle both array or single object just in case, but prioritize array access as requested
-        
-        // Strictly following user instruction to access as array [0]
-        const profileName = Array.isArray(otherMember?.profiles) 
-            ? otherMember?.profiles[0]?.full_name 
-            : (otherMember?.profiles as any)?.full_name;
+    formattedDMs = (dmMemberships || []).map(m => {
+      const otherMember = otherMembers?.find(om => om.channel_id === m.channel_id);
+      const profiles = otherMember?.profiles as any;
 
-        return {
-           id: m.channel_id,
-           type: "dm",
-           name: (otherMember?.profiles as any)?.[0]?.full_name || "Người dùng",
-           avatar_url: (otherMember?.profiles as any)?.[0]?.avatar_url
-        };
-     });
+      // Supabase returns profiles as a single object on 1-to-1 joins, not an array
+      const profileData = Array.isArray(profiles) ? profiles[0] : profiles;
+
+      return {
+        id: m.channel_id,
+        type: "dm",
+        name: profileData?.full_name || "Người dùng",
+        avatar_url: profileData?.avatar_url
+      };
+    });
   }
-  
+
   return {
     global: globalChannels || [],
     groups: groupChannels || [],
@@ -70,37 +68,37 @@ export async function createDM(targetUserId: string) {
 
   // Use Secure RPC to get or create DM channel
   // This avoids RLS "policy violation" errors when inserting a channel before membership exists
-  const { data: channelId, error } = await supabase.rpc('create_dm_secure', { 
-    target_user_id: targetUserId 
+  const { data: channelId, error } = await supabase.rpc('create_dm_secure', {
+    target_user_id: targetUserId
   });
 
   if (error) {
     console.error("Error creating DM:", error);
     return { error: "Lỗi tạo hội thoại: " + error.message };
   }
-  
+
   return { id: channelId };
 }
 
 export async function searchUsers(query: string) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) return [];
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-    const { data } = await supabase
-        .from("profiles")
-        .select("id, full_name, username, avatar_url, email")
-        .or(`full_name.ilike.%${query}%,username.ilike.%${query}%`)
-        .neq("id", user.id) // Exclude self
-        .limit(5);
-        
-    return data || [];
+  if (!user) return [];
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, full_name, username, avatar_url, email")
+    .or(`full_name.ilike.%${query}%,username.ilike.%${query}%`)
+    .neq("id", user.id) // Exclude self
+    .limit(5);
+
+  return data || [];
 }
 
 export async function getMessages(channelId: string) {
   const supabase = await createClient();
-  
+
   const { data: messages } = await supabase
     .from("messages")
     .select("*, profiles(full_name, avatar_url)")
