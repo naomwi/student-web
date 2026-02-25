@@ -42,6 +42,7 @@ export function AITutorChat() {
             const assistantId = (Date.now() + 1).toString();
             setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
 
+            if (!response.body) throw new Error("Không có luồng dữ liệu");
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let assistantContent = "";
