@@ -11,11 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function PostEditor() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  
+
   const form = useForm<z.infer<typeof CreatePostSchema>>({
     resolver: zodResolver(CreatePostSchema),
     defaultValues: { title: "", content: "", is_published: true },
@@ -31,7 +32,7 @@ export function PostEditor() {
     startTransition(async () => {
       const result = await createPost(null, formData);
       if (result?.error) {
-        alert(result.error);
+        toast.error(result.error);
       } else {
         router.push("/dashboard/blog");
       }
@@ -39,13 +40,13 @@ export function PostEditor() {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-3xl mx-auto bg-white dark:bg-slate-900 dark:border-slate-800 p-8 rounded-lg border shadow-sm">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-3xl mx-auto bg-white dark:bg-slate-900 dark:border-slate-800 p-8 pb-12 rounded-lg border shadow-sm mb-12">
       <div className="space-y-2">
         <Label htmlFor="title">Tiêu đề bài viết</Label>
-        <Input 
-          id="title" 
-          placeholder="Ví dụ: Cách học tốt môn Giải tích 1..." 
-          {...form.register("title")} 
+        <Input
+          id="title"
+          placeholder="Ví dụ: Cách học tốt môn Giải tích 1..."
+          {...form.register("title")}
         />
         {form.formState.errors.title && (
           <p className="text-red-500 text-sm">{form.formState.errors.title.message}</p>
@@ -54,9 +55,9 @@ export function PostEditor() {
 
       <div className="space-y-2">
         <Label>Nội dung</Label>
-        <Tiptap 
-          content={form.watch("content")} 
-          onChange={(html) => form.setValue("content", html)} 
+        <Tiptap
+          content={form.watch("content")}
+          onChange={(html) => form.setValue("content", html)}
         />
         {form.formState.errors.content && (
           <p className="text-red-500 text-sm">{form.formState.errors.content.message}</p>

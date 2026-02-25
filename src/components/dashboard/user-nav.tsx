@@ -36,13 +36,13 @@ export function UserNav({ user }: UserNavProps) {
           <Avatar className="h-12 w-12 border-2 border-white shadow-lg">
             <AvatarImage src={user.avatar_url} alt={user.full_name || ""} className="object-cover" />
             <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-lg">
-              {user.email?.[0].toUpperCase()}
+              {user.email?.[0]?.toUpperCase() || "U"}
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent className="w-64 z-[60] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-100 dark:border-slate-800 shadow-2xl rounded-2xl p-2 mt-2" align="end" forceMount>
+      <DropdownMenuContent className="w-64 z-[60] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-100 dark:border-slate-800 shadow-2xl rounded-2xl p-2 mt-2" align="end">
         <DropdownMenuLabel className="font-normal p-3 bg-slate-50 dark:bg-slate-800 rounded-xl mb-2">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-bold text-indigo-900 dark:text-indigo-100 leading-none flex items-center gap-2">

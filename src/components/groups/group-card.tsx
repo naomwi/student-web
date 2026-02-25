@@ -4,6 +4,7 @@ import { joinGroup } from "@/actions/group-actions";
 import { Button } from "@/components/ui/button";
 import { Users, MapPin, ExternalLink } from "lucide-react";
 import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface GroupProps {
   id: string;
@@ -21,7 +22,11 @@ export function GroupCard({ group }: { group: GroupProps }) {
   const handleJoin = () => {
     startTransition(async () => {
       const res = await joinGroup(group.id);
-      if (res?.error) alert(res.error);
+      if (res?.error) {
+        toast.error(res.error);
+      } else {
+        toast.success("Tham gia nhóm thành công!");
+      }
     });
   };
 
@@ -34,26 +39,26 @@ export function GroupCard({ group }: { group: GroupProps }) {
             <Users className="h-3 w-3 mr-1" /> {group.memberCount}
           </span>
         </div>
-        
+
         <p className="text-gray-500 dark:text-slate-400 text-sm mb-4 line-clamp-3 min-h-[60px]">
           {group.description || "Chưa có mô tả."}
         </p>
 
         <div className="space-y-2 mb-4 text-sm text-gray-600 dark:text-slate-300">
-           <div className="flex items-center">
-             <MapPin className="h-4 w-4 mr-2 text-gray-400 dark:text-slate-500" />
-             {group.location || "Online"}
-           </div>
-           {group.isMember && group.meetingLink && (
-             <a href={group.meetingLink} target="_blank" className="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
-               <ExternalLink className="h-4 w-4 mr-2" /> Link phòng họp
-             </a>
-           )}
+          <div className="flex items-center">
+            <MapPin className="h-4 w-4 mr-2 text-gray-400 dark:text-slate-500" />
+            {group.location || "Online"}
+          </div>
+          {group.isMember && group.meetingLink && (
+            <a href={group.meetingLink} target="_blank" className="flex items-center text-blue-600 dark:text-blue-400 hover:underline">
+              <ExternalLink className="h-4 w-4 mr-2" /> Link phòng họp
+            </a>
+          )}
         </div>
       </div>
 
-      <Button 
-        onClick={handleJoin} 
+      <Button
+        onClick={handleJoin}
         disabled={group.isMember || isPending}
         variant={group.isMember ? "outline" : "default"}
         className="w-full"
