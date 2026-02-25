@@ -2,7 +2,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const maxDuration = 30;
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || "";
+
+const genAI = new GoogleGenerativeAI(apiKey);
 
 const SYSTEM_INSTRUCTION = `Bạn là "Gia sư AI" của mạng xã hội sinh viên UniConnect.
 Nhiệm vụ của bạn là hỗ trợ sinh viên trả lời câu hỏi, giải đáp thắc mắc về các môn học (Toán, Lý, Hóa, CNTT, Kinh Tế,...), và tư vấn lịch trình học tập.
@@ -11,10 +13,20 @@ Khi người dùng gặp bài tập khó, đừng chỉ đưa ra đáp án cuố
 
 export async function POST(req: Request) {
     try {
+        if (!apiKey) {
+            return new Response(
+                JSON.stringify({ error: "Missing GOOGLE_GENERATIVE_AI_API_KEY in .env.local" }),
+                { status: 500, headers: { "Content-Type": "application/json" } }
+            );
+        }
+
         const { messages } = await req.json();
 
+        console.log("[AI Tutor] Received", messages.length, "messages. Using model: gemini-3-flash-preview");
+        console.log("[AI Tutor] API Key starts with:", apiKey.substring(0, 10) + "...");
+
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.0-flash",
+            model: "gemini-3-flash-preview",
             systemInstruction: SYSTEM_INSTRUCTION,
         });
 
@@ -29,6 +41,8 @@ export async function POST(req: Request) {
         // Get the last user message
         const lastMessage = messages[messages.length - 1];
 
+        console.log("[AI Tutor] Sending message:", lastMessage.content.substring(0, 50));
+
         // Use streaming for real-time response
         const result = await chat.sendMessageStream(lastMessage.content);
 
@@ -40,12 +54,13 @@ export async function POST(req: Request) {
                     for await (const chunk of result.stream) {
                         const text = chunk.text();
                         if (text) {
-                            // Send as simple text chunks
                             controller.enqueue(encoder.encode(text));
                         }
                     }
-                } catch (error) {
-                    console.error("Stream error:", error);
+                } catch (streamError: any) {
+                    console.error("[AI Tutor] Stream error:", streamError?.message || streamError);
+                    // Send error as text so user sees it
+                    controller.enqueue(encoder.encode(`\n\n[Lỗi stream: ${streamError?.message || "Unknown"}]`));
                 } finally {
                     controller.close();
                 }
@@ -55,13 +70,17 @@ export async function POST(req: Request) {
         return new Response(stream, {
             headers: {
                 "Content-Type": "text/plain; charset=utf-8",
-                "Transfer-Encoding": "chunked",
             },
         });
-    } catch (error) {
-        console.error("Gemini API Error:", error);
+    } catch (error: any) {
+        const errorMsg = error?.message || error?.toString() || "Unknown error";
+        console.error("[AI Tutor] Gemini API Error:", errorMsg);
+        console.error("[AI Tutor] Full error:", JSON.stringify(error, null, 2));
         return new Response(
-            JSON.stringify({ error: "Có lỗi khi kết nối với máy chủ AI." }),
+            JSON.stringify({
+                error: `Lỗi kết nối AI: ${errorMsg}`,
+                hint: "Kiểm tra API Key và tên model trong route.ts"
+            }),
             {
                 status: 500,
                 headers: { "Content-Type": "application/json" },

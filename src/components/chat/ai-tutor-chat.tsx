@@ -33,8 +33,11 @@ export function AITutorChat() {
                 body: JSON.stringify({ messages: newMessages }),
             });
 
-            if (!response.ok) throw new Error("Lấy phản hồi thất bại");
-            if (!response.body) throw new Error("Không có luồng dữ liệu");
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                const errorMsg = errorData?.error || `Server trả về lỗi ${response.status}`;
+                throw new Error(errorMsg);
+            }
 
             const assistantId = (Date.now() + 1).toString();
             setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
