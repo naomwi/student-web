@@ -1,20 +1,77 @@
 "use client";
 
-import { useChat, Message } from "ai/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Bot, User, Loader2, Sparkles } from "lucide-react";
 
 export function AITutorChat() {
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-        api: "/api/chat",
-    });
-
+    const [messages, setMessages] = useState<{ id: string; role: "user" | "assistant"; content: string }[]>([]);
+    const [input, setInput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll to bottom of chat
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!input.trim() || isLoading) return;
+
+        const userMessage = { id: Date.now().toString(), role: "user" as const, content: input.trim() };
+        const newMessages = [...messages, userMessage];
+        setMessages(newMessages);
+        setInput("");
+        setIsLoading(true);
+
+        try {
+            const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages: newMessages }),
+            });
+
+            if (!response.ok) throw new Error("Lấy phản hồi thất bại");
+            if (!response.body) throw new Error("Không có luồng dữ liệu");
+
+            const assistantId = (Date.now() + 1).toString();
+            setMessages(prev => [...prev, { id: assistantId, role: "assistant", content: "" }]);
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let assistantContent = "";
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+
+                // Vercel AI SDK (ai@3) streamText returns standard format chunks: `0:"..."\n`
+                const lines = chunk.split('\n');
+                for (const line of lines) {
+                    if (line.startsWith('0:')) {
+                        try {
+                            const text = JSON.parse(line.substring(2));
+                            assistantContent += text;
+                        } catch (e) { }
+                    }
+                }
+
+                setMessages(prev =>
+                    prev.map(msg => msg.id === assistantId ? { ...msg, content: assistantContent } : msg)
+                );
+            }
+        } catch (error) {
+            console.error(error);
+            setMessages(prev => [...prev, { id: Date.now().toString(), role: "assistant", content: "Xin lỗi, đã xảy ra lỗi khi kết nối với Gia sư AI. Vui lòng thử lại!" }]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -26,7 +83,6 @@ export function AITutorChat() {
             <ScrollArea className="flex-1 p-4">
                 <div className="space-y-6 max-w-3xl mx-auto pb-6" ref={scrollRef}>
 
-                    {/* Welcome Message */}
                     {messages.length === 0 && (
                         <div className="text-center py-10 opacity-70">
                             <div className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 h-16 w-16 rounded-2xl mx-auto flex items-center justify-center mb-4">
@@ -39,8 +95,7 @@ export function AITutorChat() {
                         </div>
                     )}
 
-                    {/* Messages */}
-                    {messages.map((message: Message) => (
+                    {messages.map((message) => (
                         <div
                             key={message.id}
                             className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"
@@ -54,8 +109,8 @@ export function AITutorChat() {
 
                             <div
                                 className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${message.role === "user"
-                                    ? "bg-indigo-600 text-white rounded-tr-sm"
-                                    : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-sm prose prose-sm dark:prose-invert"
+                                        ? "bg-indigo-600 text-white rounded-tr-sm"
+                                        : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-sm prose prose-sm dark:prose-invert"
                                     }`}
                                 style={{ whiteSpace: "pre-wrap" }}
                                 dangerouslySetInnerHTML={{ __html: message.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br/>') }}
@@ -83,7 +138,6 @@ export function AITutorChat() {
                 </div>
             </ScrollArea>
 
-            {/* Input Area */}
             <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
                 <form
                     onSubmit={handleSubmit}
