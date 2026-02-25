@@ -5,14 +5,15 @@ import { getChannels, searchUsers, createDM } from "@/actions/chat-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Hash, Users, MessageSquare, ChevronLeft, Send, Search, UserPlus, Loader2 } from "lucide-react";
+import { Hash, Users, MessageSquare, ChevronLeft, Send, Search, UserPlus, Loader2, Sparkles } from "lucide-react";
 import { MessageList } from "./message-list";
+import { AITutorChat } from "./ai-tutor-chat";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Channel {
   id: string;
   name: string;
-  type: "global" | "group" | "dm";
+  type: "global" | "group" | "dm" | "ai";
   avatar_url?: string;
 }
 
@@ -135,9 +136,14 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
             <>
               {selectedChannel?.type === 'dm' && (
                 <Avatar className="h-6 w-6">
-                  <AvatarImage src={selectedChannel.avatar_url} />
-                  <AvatarFallback>{selectedChannel.name[0]}</AvatarFallback>
+                  <AvatarImage src={selectedChannel?.avatar_url} />
+                  <AvatarFallback>{selectedChannel?.name[0]}</AvatarFallback>
                 </Avatar>
+              )}
+              {selectedChannel?.type === 'ai' && (
+                <div className="h-6 w-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <Sparkles className="h-3 w-3 text-white" />
+                </div>
               )}
               {selectedChannel?.name || "Chat"}
             </>
@@ -149,6 +155,22 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
       <div className="flex-1 overflow-hidden relative">
         {activeTab === "list" ? (
           <div className="h-full overflow-y-auto p-2 space-y-6">
+
+            {/* AI Tutor */}
+            <div className="space-y-1">
+              <h4 className="px-2 text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 uppercase tracking-wider mb-2 flex items-center gap-1">
+                <Sparkles className="h-3 w-3 text-indigo-500" /> Trợ lý thông minh
+              </h4>
+              <button onClick={() => handleSelectChannel({ id: "ai_tutor", name: "Gia sư AI", type: "ai" })} className="w-full flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 dark:hover:from-indigo-950/30 dark:hover:to-purple-950/30 transition text-left group border border-transparent hover:border-indigo-100 dark:hover:border-indigo-900/50">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 shadow-md flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-bold text-sm text-slate-800 dark:text-slate-200">Gia sư AI</p>
+                  <p className="text-xs text-indigo-500 dark:text-indigo-400 truncate max-w-[200px] font-medium">Hỏi bài tập, giải đáp kiến thức...</p>
+                </div>
+              </button>
+            </div>
 
             {/* Global Channels */}
             <div className="space-y-1">
@@ -237,7 +259,11 @@ export function ChatWindow({ userId, onClose }: { userId: string; onClose: () =>
             </div>
           </div>
         ) : (
-          selectedChannel && <MessageList channel={selectedChannel} userId={userId} />
+          selectedChannel?.type === 'ai' ? (
+            <AITutorChat />
+          ) : (
+            selectedChannel && <MessageList channel={selectedChannel} userId={userId} />
+          )
         )}
       </div>
     </div>
