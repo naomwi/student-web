@@ -3,8 +3,11 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image'; // Cần cài thêm
+import Highlight from '@tiptap/extension-highlight';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
 import { Button } from '@/components/ui/button';
-import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Code, Undo, Redo, Image as ImageIcon } from 'lucide-react';
+import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Code, Undo, Redo, Image as ImageIcon, Highlighter, Palette } from 'lucide-react';
 import { createClient } from "@/lib/supabase/client";
 
 interface TiptapProps {
@@ -18,6 +21,9 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
     extensions: [
       StarterKit,
       Image, // Kích hoạt Image extension
+      Highlight,
+      TextStyle,
+      Color,
     ],
     content,
     editorProps: {
@@ -102,6 +108,24 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
         >
           <Strikethrough className="w-4 h-4" />
         </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="button"
+          onClick={() => editor.chain().focus().toggleHighlight().run()}
+          className={editor.isActive('highlight') ? 'bg-slate-200 dark:bg-slate-800' : ''}
+        >
+          <Highlighter className="w-4 h-4" />
+        </Button>
+        <div className="relative flex items-center justify-center p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer" title="Đổi màu chữ">
+          <Palette className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+          <input
+            type="color"
+            onInput={(event) => editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
+            value={editor.getAttributes('textStyle').color || '#000000'}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
+        </div>
 
         <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 self-center"></div>
 
