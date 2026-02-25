@@ -6,9 +6,55 @@ import Image from '@tiptap/extension-image'; // Cần cài thêm
 import Highlight from '@tiptap/extension-highlight';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
+import { Extension } from '@tiptap/core';
 import { Button } from '@/components/ui/button';
 import { Bold, Italic, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, Quote, Code, Undo, Redo, Image as ImageIcon, Highlighter, Palette } from 'lucide-react';
 import { createClient } from "@/lib/supabase/client";
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    fontSize: {
+      setFontSize: (size: string) => ReturnType;
+      unsetFontSize: () => ReturnType;
+    };
+  }
+}
+
+const FontSize = Extension.create({
+  name: 'fontSize',
+  addOptions() {
+    return {
+      types: ['textStyle'],
+    };
+  },
+  addGlobalAttributes() {
+    return [
+      {
+        types: this.options.types,
+        attributes: {
+          fontSize: {
+            default: null,
+            parseHTML: element => element.style.fontSize.replace(/['"]+/g, ''),
+            renderHTML: attributes => {
+              if (!attributes.fontSize) return {};
+              return { style: `font-size: ${attributes.fontSize}` };
+            },
+          },
+        },
+      },
+    ];
+  },
+  addCommands() {
+    return {
+      setFontSize: fontSize => ({ chain }) => {
+        return chain().setMark('textStyle', { fontSize }).run();
+      },
+      unsetFontSize: () => ({ chain }) => {
+        return chain().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run();
+      },
+    };
+  },
+});
 
 interface TiptapProps {
   content: string;
@@ -24,6 +70,7 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
       Highlight,
       TextStyle,
       Color,
+      FontSize,
     ],
     content,
     editorProps: {
@@ -80,7 +127,30 @@ export default function Tiptap({ content, onChange }: TiptapProps) {
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+      <div className="flex flex-wrap gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 items-center">
+        <select
+          onChange={(e) => {
+            if (e.target.value) {
+              editor.chain().focus().setFontSize(e.target.value).run();
+            } else {
+              editor.chain().focus().unsetFontSize().run();
+            }
+          }}
+          value={editor.getAttributes('textStyle').fontSize || ''}
+          className="h-8 rounded-md border border-slate-200 dark:border-slate-700 bg-transparent text-sm px-2 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-300 dark:focus:ring-slate-600"
+        >
+          <option value="" className="bg-white dark:bg-slate-900">Cỡ chữ</option>
+          <option value="12px" className="bg-white dark:bg-slate-900">12px</option>
+          <option value="14px" className="bg-white dark:bg-slate-900">14px</option>
+          <option value="16px" className="bg-white dark:bg-slate-900">16px</option>
+          <option value="18px" className="bg-white dark:bg-slate-900">18px</option>
+          <option value="20px" className="bg-white dark:bg-slate-900">20px</option>
+          <option value="24px" className="bg-white dark:bg-slate-900">24px</option>
+          <option value="30px" className="bg-white dark:bg-slate-900">30px</option>
+        </select>
+
+        <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
         <Button
           variant="ghost"
           size="sm"
