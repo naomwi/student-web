@@ -8,6 +8,7 @@ export async function saveDocumentMetadata(fileData: {
   storagePath: string;
   fileSize: number;
   mimeType: string;
+  category: string;
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -20,6 +21,7 @@ export async function saveDocumentMetadata(fileData: {
     storage_path: fileData.storagePath,
     file_size: fileData.fileSize,
     mime_type: fileData.mimeType,
+    category: fileData.category,
   });
 
   if (error) return { error: error.message };
@@ -29,7 +31,7 @@ export async function saveDocumentMetadata(fileData: {
 
 export async function getDocumentDownloadUrl(storagePath: string) {
   const supabase = await createClient();
-  
+
   const { data, error } = await supabase
     .storage
     .from('student-docs')

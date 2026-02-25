@@ -94,8 +94,8 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
             ))}
 
             {(!exams || exams.length === 0) && (
-              <div className="text-center py-16 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
-                <GraduationCap className="h-12 w-12 text-slate-300 mx-auto mb-3" />
+              <div className="text-center py-16 bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
+                <GraduationCap className="h-12 w-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
                 <p className="text-slate-500 font-medium">Chưa có đề thi nào (hoặc đang cấu hình Database).</p>
                 <p className="text-slate-400 text-sm">Hãy vào mục "Tài liệu" để upload và chọn danh mục Exam.</p>
               </div>
