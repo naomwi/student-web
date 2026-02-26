@@ -8,7 +8,6 @@ import { signupAction } from "@/actions/auth-actions";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SocialButtons } from "./social-button";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
@@ -40,19 +39,14 @@ export function RegisterForm() {
         <p className="text-sm text-gray-500 dark:text-slate-400 mt-2">Tham gia cộng đồng sinh viên ngay hôm nay</p>
       </div>
 
-      <SocialButtons />
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-200 dark:border-slate-800" /></div>
-        <div className="relative flex justify-center text-xs uppercase"><span className="bg-white dark:bg-slate-900 px-2 text-gray-500 dark:text-slate-400">Hoặc đăng ký bằng email</span></div>
-      </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Họ và tên</label>
-          <Input 
-            {...form.register("full_name")} 
-            placeholder="Nguyễn Văn A" 
+          <Input
+            {...form.register("full_name")}
+            placeholder="Nguyễn Văn A"
             disabled={isPending}
             className="dark:bg-slate-800 dark:border-slate-700"
           />
@@ -63,9 +57,9 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Username (Tên đăng nhập)</label>
-          <Input 
-            {...form.register("username")} 
-            placeholder="nguyen_van_a" 
+          <Input
+            {...form.register("username")}
+            placeholder="nguyen_van_a"
             disabled={isPending}
             className="dark:bg-slate-800 dark:border-slate-700"
           />
@@ -76,9 +70,9 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Email sinh viên</label>
-          <Input 
-            {...form.register("email")} 
-            placeholder="sinhvien@school.edu.vn" 
+          <Input
+            {...form.register("email")}
+            placeholder="sinhvien@school.edu.vn"
             disabled={isPending}
             type="email"
             className="dark:bg-slate-800 dark:border-slate-700"
@@ -90,28 +84,28 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Mật khẩu</label>
-          <Input 
-            {...form.register("password")} 
-            type="password" 
+          <Input
+            {...form.register("password")}
+            type="password"
             disabled={isPending}
-            placeholder="••••••••" 
+            placeholder="••••••••"
             className="dark:bg-slate-800 dark:border-slate-700"
           />
-           {form.formState.errors.password && (
+          {form.formState.errors.password && (
             <p className="text-red-500 text-xs">{form.formState.errors.password.message}</p>
           )}
         </div>
 
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Nhập lại mật khẩu</label>
-          <Input 
-            {...form.register("confirmPassword")} 
-            type="password" 
+          <Input
+            {...form.register("confirmPassword")}
+            type="password"
             disabled={isPending}
-            placeholder="••••••••" 
+            placeholder="••••••••"
             className="dark:bg-slate-800 dark:border-slate-700"
           />
-           {form.formState.errors.confirmPassword && (
+          {form.formState.errors.confirmPassword && (
             <p className="text-red-500 text-xs">{form.formState.errors.confirmPassword.message}</p>
           )}
         </div>
@@ -123,7 +117,7 @@ export function RegisterForm() {
           {isPending ? "Đang xử lý..." : "Đăng ký"}
         </Button>
       </form>
-      
+
       <div className="text-center text-sm dark:text-slate-400">
         Đã có tài khoản? <a href="/login" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">Đăng nhập</a>
       </div>

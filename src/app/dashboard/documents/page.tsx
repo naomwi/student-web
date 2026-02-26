@@ -1,6 +1,8 @@
 import { getDocumentsService } from "@/services/document-service";
+import { createClient } from "@/lib/supabase/server";
 import { UploadZone } from "@/components/documents/upload-zone";
 import { DownloadBtn } from "@/components/documents/download-btn";
+import { DeleteDocBtn } from "@/components/documents/delete-doc-btn";
 import { FileText, Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,6 +12,15 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
   const params = await searchParams;
   const search = params.q || "";
   const category = params.cat || "all";
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single();
+    isAdmin = profile?.username === 'nao';
+  }
 
   const docs = await getDocumentsService(search, category);
 
@@ -77,7 +88,12 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Pr
                 </div>
               </div>
 
-              <DownloadBtn path={doc.storage_path} fileName={doc.file_name} />
+              <div className="flex items-center gap-2">
+                <DownloadBtn path={doc.storage_path} fileName={doc.file_name} />
+                {(user?.id === doc.uploader_id || isAdmin) && (
+                  <DeleteDocBtn documentId={doc.id} storagePath={doc.storage_path} />
+                )}
+              </div>
             </div>
           ))}
 

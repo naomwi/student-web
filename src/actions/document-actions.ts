@@ -40,3 +40,43 @@ export async function getDocumentDownloadUrl(storagePath: string) {
   if (error) return { error: "Không thể tạo liên kết tải." };
   return { url: data.signedUrl };
 }
+
+export async function deleteDocument(documentId: string, storagePath: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Unauthorized" };
+
+  // Kiểm tra quyền (chỉ người upload mới được xóa)
+  const { data: doc } = await supabase
+    .from("documents")
+    .select("uploader_id")
+    .eq("id", documentId)
+    .single();
+
+  const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single();
+  const isAdmin = profile?.username === 'nao';
+
+  if (!doc || (doc.uploader_id !== user.id && !isAdmin)) {
+    return { error: "Không có quyền xóa biên bản này." };
+  }
+
+  // 1. Xóa file trong storage
+  const { error: storageError } = await supabase.storage.from("student-docs").remove([storagePath]);
+
+  if (storageError) {
+    console.error("Storage Error:", storageError);
+    return { error: "Lỗi khi xóa file đính kèm." };
+  }
+
+  // 2. Xóa record trong db
+  const { error: dbError } = await supabase.from("documents").delete().eq("id", documentId);
+
+  if (dbError) {
+    console.error("DB Error:", dbError);
+    return { error: "Lỗi hệ thống khi xóa dữ liệu." };
+  }
+
+  revalidatePath("/dashboard/documents");
+  return { success: true, message: "Đã xóa tài liệu" };
+}

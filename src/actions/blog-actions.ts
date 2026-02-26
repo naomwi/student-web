@@ -55,3 +55,34 @@ export async function createPost(prevState: any, formData: FormData) {
 
   return { success: true, message: "Bài viết đã được tạo!" };
 }
+
+export async function deletePost(postId: string) {
+  const supabase = await createClient();
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) {
+    return { error: "Unauthorized. Vui lòng đăng nhập." };
+  }
+
+  // Lấy file để kiểm tra quyền
+  const { data: post } = await supabase.from("posts").select("author_id").eq("id", postId).single();
+
+  const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single();
+  const isAdmin = profile?.username === 'nao';
+
+  if (!post || (post.author_id !== user.id && !isAdmin)) {
+    return { error: "Không được phép xóa bài viết này." };
+  }
+
+  const { error } = await supabase.from("posts").delete().eq("id", postId);
+
+  if (error) {
+    console.error("Database Error:", error);
+    return { error: "Lỗi hệ thống khi xóa bài viết." };
+  }
+
+  revalidatePath("/dashboard/blog");
+  revalidatePath("/dashboard/posts");
+
+  return { success: true, message: "Bài viết đã được xóa!" };
+}

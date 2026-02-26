@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas/auth";
 import { loginAction } from "@/actions/auth-actions";
-import { SocialButtons } from "./social-button";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -36,19 +35,14 @@ export function LoginForm() {
         <p className="text-sm text-gray-500 dark:text-slate-400 mt-2">Đăng nhập để tiếp tục học tập</p>
       </div>
 
-      <SocialButtons />
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-200 dark:border-slate-800" /></div>
-        <div className="relative flex justify-center text-xs uppercase"><span className="bg-white dark:bg-slate-900 px-2 text-gray-500 dark:text-slate-400">Hoặc tiếp tục với</span></div>
-      </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Email hoặc Username</label>
-          <Input 
-            {...form.register("identifier")} 
-            placeholder="sinhvien@example.com hoặc username" 
+          <Input
+            {...form.register("identifier")}
+            placeholder="sinhvien@example.com hoặc username"
             disabled={isPending}
             className="dark:bg-slate-800 dark:border-slate-700"
           />
@@ -59,14 +53,14 @@ export function LoginForm() {
 
         <div className="space-y-2">
           <label className="text-sm font-medium dark:text-slate-300">Mật khẩu</label>
-          <Input 
-            {...form.register("password")} 
-            type="password" 
+          <Input
+            {...form.register("password")}
+            type="password"
             disabled={isPending}
-            placeholder="••••••••" 
+            placeholder="••••••••"
             className="dark:bg-slate-800 dark:border-slate-700"
           />
-           {form.formState.errors.password && (
+          {form.formState.errors.password && (
             <p className="text-red-500 text-xs">{form.formState.errors.password.message}</p>
           )}
         </div>
@@ -77,7 +71,7 @@ export function LoginForm() {
           {isPending ? "Đang xử lý..." : "Đăng nhập"}
         </Button>
       </form>
-      
+
       <div className="text-center text-sm dark:text-slate-400">
         Chưa có tài khoản? <a href="/register" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">Đăng ký ngay</a>
       </div>
