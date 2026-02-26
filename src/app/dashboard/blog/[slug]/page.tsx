@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           )}
         </div>
-        {isAuthor && (
+        {isAuthorOrAdmin && (
           <div className="shrink-0 mt-2 sm:mt-0">
             <DeletePostButton postId={post.id} />
           </div>
