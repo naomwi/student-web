@@ -29,7 +29,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <UserProvider user={userProfile}>
-      <div className="flex min-h-screen bg-[#F0FDFA] dark:bg-[#1a2332]/50 font-body">
+      <div className="flex min-h-screen bg-slate-50 dark:bg-transparent font-body">
         {/* SIDEBAR */}
         <SidebarNav />
 

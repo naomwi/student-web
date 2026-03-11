@@ -48,7 +48,7 @@ export default async function DashboardPage() {
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row justify-between md:items-end gap-6">
         <div className="w-full">
-          <h2 className="text-4xl font-display font-bold tracking-tight mb-2 bg-gradient-to-r from-[#0D9488] via-[#2DD4BF] to-indigo-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-display font-bold tracking-tight mb-2 text-slate-900 dark:text-transparent dark:bg-gradient-to-r dark:from-[#0D9488] dark:via-[#2DD4BF] dark:to-indigo-400 dark:bg-clip-text">
             Tổng quan
           </h2>
           <div className="mt-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-teal-50 to-indigo-50 dark:from-teal-900/20 dark:to-indigo-900/20 border border-teal-100 dark:border-teal-900/30 flex items-center gap-3 w-fit">

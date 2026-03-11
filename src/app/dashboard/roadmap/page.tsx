@@ -58,7 +58,7 @@ export default function RoadmapPage() {
             {/* Timeline Dot */}
             {year.completed ? (
               <div className="absolute -left-[17px] top-0 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center p-0.5">
-                 <CheckCircle2 className="h-7 w-7 text-[#0D9488] dark:text-[#2DD4BF] fill-[#F0FDFA] dark:fill-[#0D9488]/20" />
+                 <CheckCircle2 className="h-7 w-7 text-[#0D9488] dark:text-[#2DD4BF] fill-slate-50 dark:fill-[#0D9488]/20" />
               </div>
             ) : year.active ? (
               <div className="absolute -left-[14px] top-1 bg-white dark:bg-slate-900 border-4 border-[#2DD4BF] dark:border-[#0D9488] w-6 h-6 rounded-full step-active"></div>

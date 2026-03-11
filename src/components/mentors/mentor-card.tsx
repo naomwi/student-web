@@ -49,7 +49,7 @@ export function MentorCard({ mentor, currentUserId }: { mentor: Mentor; currentU
           <div className="h-20 w-20 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center overflow-hidden border-2 border-slate-100 dark:border-slate-700 shadow-sm group-hover:border-[#0D9488]/30 transition-colors">
             <Avatar className="h-full w-full rounded-none">
               <AvatarImage src={mentor.avatar_url} className="object-cover" />
-              <AvatarFallback className="text-2xl font-display font-bold text-[#0D9488] bg-[#F0FDFA] dark:bg-[#0D9488]/10 dark:text-[#2DD4BF] rounded-none">
+              <AvatarFallback className="text-2xl font-display font-bold text-[#0D9488] bg-slate-50 dark:bg-[#0D9488]/10 dark:text-[#2DD4BF] rounded-none">
                 {mentor.full_name?.[0]}
               </AvatarFallback>
             </Avatar>

@@ -3,7 +3,7 @@ import { BookOpen, MessageCircle, TrendingUp, GraduationCap } from "lucide-react
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#F0FDFA] dark:bg-[#1a2332]">
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-50 dark:bg-[#1a2332]">
       {/* Left Panel - Hidden on mobile, animated gradient on desktop */}
       <div className="hidden md:flex md:w-1/2 login-panel-gradient p-12 flex-col justify-between text-white">
         <div>

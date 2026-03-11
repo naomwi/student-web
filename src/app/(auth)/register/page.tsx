@@ -3,7 +3,7 @@ import { Sparkles, Users, BookOpen, MessageCircle } from "lucide-react";
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-[#F0FDFA] dark:bg-[#1a2332]">
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-50 dark:bg-[#1a2332]">
       {/* Right Panel - Hidden on mobile, animated gradient on desktop (Reversed from Login) */}
       <div className="hidden md:flex md:w-1/2 login-panel-gradient p-12 flex-col justify-between text-white md:order-2">
         <div>

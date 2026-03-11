@@ -12,7 +12,7 @@ interface Props {
 
 export function SectionHeader({ icon, title, href, label }: Props) {
   return (
-    <div className="flex justify-between items-center bg-gradient-to-r from-slate-50/50 dark:from-white/5 dark:to-transparent pb-4 border-b border-slate-50 dark:border-white/5 mb-6 p-6 md:p-8">
+    <div className="flex justify-between items-center bg-slate-50/50 dark:bg-white/5 pb-4 border-b border-slate-100 dark:border-white/5 mb-6 p-6 md:p-8">
       <h3 className="font-display font-bold text-xl text-[#1a2332] dark:text-slate-200 flex items-center">
         <div className="p-2.5 bg-[#0D9488]/10 dark:bg-[#0D9488]/20 rounded-xl mr-4 border border-[#0D9488]/20 dark:border-[#0D9488]/30 text-[#0D9488] dark:text-[#2DD4BF]">
           {icon}
