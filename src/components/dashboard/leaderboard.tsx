@@ -36,9 +36,9 @@ export async function Leaderboard() {
                 </div>
                 <div className="flex flex-col min-w-0">
                    <p className="font-semibold text-[15px] truncate max-w-[140px] dark:text-slate-200">{u.full_name}</p>
-                   <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
-                      <span title={tier.name}>{tier.emoji}</span>
-                      <span className="truncate">{tier.name}</span>
+                   <p className="mt-1 flex items-center gap-1.5">
+                      <span title={tier.name} className="text-sm">{tier.emoji}</span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${tier.color} truncate`}>{tier.name}</span>
                    </p>
                 </div>
               </div>

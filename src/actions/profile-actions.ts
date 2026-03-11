@@ -66,10 +66,28 @@ export async function updateProfile(prevState: any, formData: FormData) {
     ? validated.data.skills.split(',').map(s => s.trim()).filter(s => s.length > 0)
     : [];
 
+  const avatarFile = formData.get("avatar_file") as File | null;
+  let finalAvatarUrl = validated.data.avatar_url;
+
+  if (avatarFile && avatarFile.size > 0) {
+    const ext = avatarFile.name.split('.').pop();
+    const filePath = `avatars/${user.id}-${Date.now()}.${ext}`;
+    
+    const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, avatarFile, { upsert: true });
+    
+    if (uploadError) {
+      console.error("Avatar upload error:", uploadError);
+      return { error: "Lỗi tải ảnh lên: Hãy đảm bảo bạn đã tạo Storage Bucket 'avatars' trên Supabase." };
+    }
+    
+    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(filePath);
+    finalAvatarUrl = publicUrl;
+  }
+
   // Update object
   const updates: any = {
     full_name: validated.data.full_name,
-    avatar_url: validated.data.avatar_url || null,
+    avatar_url: finalAvatarUrl || null,
     major: validated.data.major,
     bio: validated.data.bio,
     year: validated.data.year,

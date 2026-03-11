@@ -32,6 +32,36 @@ export function ProfileForm({ profile }: { profile: any }) {
 
   return (
     <form action={formAction} className="space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6 pb-6 border-b border-border">
+        <div className="h-24 w-24 rounded-full bg-slate-100 dark:bg-slate-800 border-4 border-white dark:border-slate-800 shadow-md overflow-hidden flex items-center justify-center shrink-0 relative group">
+          {profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt="Avatar" className="h-full w-full object-cover object-center" />
+          ) : (
+            <span className="text-3xl font-bold text-slate-400">{profile?.full_name?.[0] || "?"}</span>
+          )}
+        </div>
+        <div className="space-y-4 flex-1">
+          <div className="space-y-1.5">
+            <Label htmlFor="avatar_file" className="font-semibold text-foreground">Tải ảnh lên từ máy tính</Label>
+            <Input 
+              name="avatar_file" 
+              type="file" 
+              accept="image/*"
+              className="w-full sm:w-[350px] cursor-pointer file:cursor-pointer file:text-primary file:bg-primary/10 file:border-0 file:rounded-md file:mr-4 file:px-4 file:py-1 hover:file:bg-primary/20 transition-all text-sm h-10"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="avatar_url" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Hoặc dùng URL ảnh</Label>
+            <Input 
+              name="avatar_url" 
+              defaultValue={profile?.avatar_url || ""} 
+              placeholder="https://example.com/avatar.jpg" 
+              className="w-full sm:w-[350px] h-9 text-sm bg-slate-50 dark:bg-slate-900"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="full_name">Họ và tên</Label>
