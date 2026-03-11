@@ -15,9 +15,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { signOutAction } from "@/actions/auth-actions";
 import Link from "next/link";
 import { User, Settings, LogOut, Sparkles } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 interface UserNavProps {
   user: {
@@ -29,6 +30,15 @@ interface UserNavProps {
 }
 
 export function UserNav({ user }: UserNavProps) {
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -72,14 +82,10 @@ export function UserNav({ user }: UserNavProps) {
 
         <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 my-2" />
 
-        <form action={signOutAction}>
-          <DropdownMenuItem asChild>
-            <button type="submit" className="w-full flex items-center rounded-lg text-rose-600 dark:text-rose-400 focus:bg-rose-50 dark:focus:bg-rose-900/30 focus:text-rose-700 dark:focus:text-rose-300 cursor-pointer py-2.5">
-              <LogOut className="mr-2 h-4 w-4" />
-              <span className="font-medium">Đăng xuất</span>
-            </button>
-          </DropdownMenuItem>
-        </form>
+        <DropdownMenuItem onClick={handleSignOut} className="rounded-lg text-rose-600 dark:text-rose-400 focus:bg-rose-50 dark:focus:bg-rose-900/30 focus:text-rose-700 dark:focus:text-rose-300 cursor-pointer py-2.5">
+          <LogOut className="mr-2 h-4 w-4" />
+          <span className="font-medium">Đăng xuất</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

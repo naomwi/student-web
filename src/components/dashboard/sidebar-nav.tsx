@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BookOpen, FileText, Users, LayoutGrid, Settings, MessageCircleQuestion, GraduationCap, HelpCircle, UserCheck, Map, LogOut, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { GlobalSearch } from "./global-search";
 import { useUser } from "@/context/user-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { signOutAction } from "@/actions/auth-actions";
+import { createClient } from "@/lib/supabase/client";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutGrid },
@@ -25,8 +25,16 @@ const NAV_ITEMS = [
 
 export function SidebarNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { user, tier } = useUser();
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
 
   const NavContent = () => (
     <>
@@ -104,13 +112,9 @@ export function SidebarNav() {
                </DropdownMenuItem>
              </Link>
              <DropdownMenuSeparator className="bg-slate-800 my-1" />
-             <form action={signOutAction} className="w-full">
-               <button type="submit" className="w-full">
-                 <DropdownMenuItem className="cursor-pointer text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-lg py-2.5 focus:bg-rose-500/10 focus:text-rose-300">
-                   <LogOut className="mr-2 h-4 w-4" /> <span className="font-bold">Đăng xuất</span>
-                 </DropdownMenuItem>
-               </button>
-             </form>
+             <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-lg py-2.5 focus:bg-rose-500/10 focus:text-rose-300">
+               <LogOut className="mr-2 h-4 w-4" /> <span className="font-bold">Đăng xuất</span>
+             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
