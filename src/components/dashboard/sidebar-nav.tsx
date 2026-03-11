@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { BookOpen, FileText, Users, LayoutGrid, Settings, MessageCircleQuestion, GraduationCap, HelpCircle, UserCheck, Map, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { GlobalSearch } from "./global-search";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutGrid },
@@ -31,6 +32,8 @@ export function SidebarNav() {
           </div>
           <h2 className="text-2xl font-display font-bold text-white tracking-tight">UniConnect</h2>
         </Link>
+
+        <GlobalSearch />
 
         <div className="space-y-1">
           {NAV_ITEMS.map((item) => {
