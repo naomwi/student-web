@@ -6,10 +6,10 @@ import { z } from "zod";
 
 const ProfileUpdateSchema = z.object({
   full_name: z.string().min(2, "Tên quá ngắn"),
-  username: z.string().min(3, "Username tối thiểu 3 ký tự").regex(/^[a-zA-Z0-9_]+$/, "Username chỉ chứa chữ, số và _").optional().or(z.literal("")),
-  major: z.string().optional(),
+  username: z.union([z.string().regex(/^[a-zA-Z0-9_]+$/, "Username chỉ chứa chữ, số và _").min(3, "Username tối thiểu 3 ký tự"), z.literal(""), z.null(), z.undefined()]),
+  major: z.string().optional().or(z.literal("")),
   bio: z.string().max(500, "Bio tối đa 500 ký tự").optional().or(z.literal("")),
-  avatar_url: z.string().url("Link ảnh không hợp lệ").optional().or(z.literal("")),
+  avatar_url: z.union([z.string().url("Link ảnh không hợp lệ"), z.literal(""), z.null(), z.undefined()]),
   year: z.coerce.number().min(1).max(10).optional(),
   is_mentor: z.boolean().optional(),
   linkedin_url: z.string().optional().or(z.literal("")),
