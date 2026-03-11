@@ -48,7 +48,7 @@ export async function loginAction(values: z.infer<typeof LoginSchema>) {
   redirect("/dashboard");
 }
 
-export async function signupAction(values: z.infer<typeof RegisterSchema>) {
+export async function signupAction(values: z.infer<typeof RegisterSchema>): Promise<{ error?: string; success?: string } | undefined> {
   const supabase = await createClient();
   
   const validated = RegisterSchema.safeParse(values);

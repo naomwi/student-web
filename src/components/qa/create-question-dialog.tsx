@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { createQuestion } from "@/actions/qa-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,11 @@ import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
-export function CreateQuestionDialog() {
+interface Props {
+  trigger?: React.ReactNode;
+}
+
+export function CreateQuestionDialog({ trigger }: Props = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -77,6 +81,13 @@ export function CreateQuestionDialog() {
   };
 
   if (!isOpen) {
+    if (trigger) {
+      return (
+        <div onClick={() => setIsOpen(true)} className="cursor-pointer inline-block">
+          {trigger}
+        </div>
+      );
+    }
     return (
       <Button onClick={() => setIsOpen(true)} className="bg-indigo-600 hover:bg-indigo-700">
         <PlusCircle className="mr-2 h-4 w-4" /> Đặt câu hỏi
