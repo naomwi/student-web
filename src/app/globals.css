@@ -115,6 +115,10 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-family: var(--font-sans), 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -141,12 +145,8 @@
   }
 }
 
-.font-display { font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif; }
-.font-body    { font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif; }
-
-body {
-  font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
-}
+.font-display { font-family: var(--font-serif), 'Plus Jakarta Sans', ui-serif, Georgia, serif; }
+.font-body    { font-family: var(--font-sans), 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif; }
 
 /* Roadmap pulse */
 @keyframes teal-pulse {
