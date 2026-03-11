@@ -95,3 +95,82 @@ export async function joinGroup(groupId: string) {
   revalidatePath("/dashboard/groups");
   return { success: true };
 }
+
+export async function leaveGroup(groupId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Unauthorized" };
+
+  const { data: group } = await supabase
+    .from("study_groups")
+    .select("leader_id")
+    .eq("id", groupId)
+    .single();
+
+  if (group?.leader_id === user.id)
+    return { error: "Bạn là leader của nhóm, không thể rời nhóm." };
+
+  const { error } = await supabase
+    .from("study_group_members")
+    .delete()
+    .eq("group_id", groupId)
+    .eq("user_id", user.id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/dashboard/groups");
+  revalidatePath(`/dashboard/groups/${groupId}`);
+  return { success: true };
+}
+
+export async function postAnnouncement(groupId: string, content: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Unauthorized" };
+
+  const { data: membership } = await supabase
+    .from("study_group_members")
+    .select("user_id")
+    .eq("group_id", groupId)
+    .eq("user_id", user.id)
+    .single();
+
+  if (!membership) return { error: "Bạn chưa tham gia nhóm này." };
+
+  const { error } = await supabase.from("group_announcements").insert({
+    group_id: groupId,
+    author_id: user.id,
+    content: content.trim(),
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/dashboard/groups/${groupId}`);
+  return { success: true };
+}
+
+export async function addGroupSession(groupId: string, formData: FormData) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Unauthorized" };
+
+  const topic = formData.get("topic") as string;
+  const startTime = formData.get("start_time") as string;
+  const location = formData.get("location") as string;
+
+  if (!topic || !startTime) return { error: "Vui lòng điền đủ thông tin." };
+
+  const { error } = await supabase.from("group_sessions").insert({
+    group_id: groupId,
+    created_by: user.id,
+    topic: topic.trim(),
+    start_time: startTime,
+    location: location?.trim() || null,
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/dashboard/groups/${groupId}`);
+  revalidatePath("/dashboard");
+  return { success: true };
+}
