@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: Props) {
     <div className="max-w-3xl mx-auto py-8">
       {/* Back Button */}
       <div className="mb-6">
-        <Link href="/fptcolearn/blog" className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 transition font-medium">
+        <Link href="/dashboard/blog" className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 transition font-medium">
           <ArrowLeft className="mr-2 h-4 w-4" /> Quay lại danh sách
         </Link>
       </div>

@@ -45,7 +45,7 @@ export async function loginAction(values: z.infer<typeof LoginSchema>) {
     return { error: "Thông tin đăng nhập không chính xác." };
   }
 
-  redirect("/fptcolearn");
+  redirect("/dashboard");
 }
 
 export async function signupAction(values: z.infer<typeof RegisterSchema>): Promise<{ error?: string; success?: string } | undefined> {
@@ -85,7 +85,7 @@ export async function signupAction(values: z.infer<typeof RegisterSchema>): Prom
     return { error: error.message };
   }
 
-  redirect("/fptcolearn");
+  redirect("/dashboard");
 }
 
 export async function signOutAction() {

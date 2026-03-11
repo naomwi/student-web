@@ -3,12 +3,12 @@ import { redirect } from "next/navigation";
 import { BookOpen, FileText, Users, Calendar, Activity, ShieldAlert, Sparkles, ArrowUpRight, SearchX, MapPin } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Leaderboard } from "@/components/fptcolearn/leaderboard";
+import { Leaderboard } from "@/components/dashboard/leaderboard";
 import { StatCard } from "@/components/shared/stat-card";
 import { SectionHeader } from "@/components/shared/section-header";
 import { EmptyState } from "@/components/shared/empty-state";
 
-export default async function FPTcolearnPage() {
+export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -100,7 +100,7 @@ export default async function FPTcolearnPage() {
             <SectionHeader 
               icon={<Calendar className="h-5 w-5" strokeWidth={1.5} />} 
               title="Lịch học sắp tới" 
-              href="/fptcolearn/groups" 
+              href="/dashboard/groups" 
               label="Xem tất cả nhóm" 
             />
             <div className="p-8 pt-0">
@@ -109,7 +109,7 @@ export default async function FPTcolearnPage() {
                   icon={<SearchX className="h-12 w-12 text-slate-300" />} 
                   message="Lịch trình đang trống. Hãy vào nhóm và lên lịch học ngay!" 
                   actionLabel="Vào nhóm học tập" 
-                  actionHref="/fptcolearn/groups" 
+                  actionHref="/dashboard/groups" 
                 />
               ) : (
                 <div className="space-y-4">
@@ -131,7 +131,7 @@ export default async function FPTcolearnPage() {
                           )}
                         </div>
                       </div>
-                      <Link href={`/fptcolearn/groups/${session.group_id}`}>
+                      <Link href={`/dashboard/groups/${session.group_id}`}>
                         <Button variant="ghost" className="text-sm bg-[#0D9488]/10 dark:bg-[#0D9488]/20 text-[#0D9488] dark:text-[#2DD4BF] px-5 py-2.5 rounded-xl hover:bg-[#0D9488]/20 dark:hover:bg-[#0D9488]/30 font-semibold transition font-body h-auto">
                           Vào nhóm <ArrowUpRight className="ml-1 h-4 w-4" />
                         </Button>

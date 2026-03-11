@@ -50,7 +50,7 @@ export function GroupCard({ group }: { group: GroupProps }) {
     <div className="bg-white dark:bg-[#1a2332] dark:border-slate-800 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full hover:border-[#0D9488]/30 hover:shadow-md transition font-body group">
       <div>
         <div className="flex justify-between items-start mb-4">
-          <Link href={`/fptcolearn/groups/${group.id}`} className="hover:text-[#0D9488] dark:hover:text-[#2DD4BF] transition group-hover:text-[#0D9488] dark:group-hover:text-[#2DD4BF]">
+          <Link href={`/dashboard/groups/${group.id}`} className="hover:text-[#0D9488] dark:hover:text-[#2DD4BF] transition group-hover:text-[#0D9488] dark:group-hover:text-[#2DD4BF]">
             <h3 className="font-display font-bold text-xl text-[#1a2332] dark:text-slate-100 line-clamp-2">{group.name}</h3>
           </Link>
         </div>
@@ -95,7 +95,7 @@ export function GroupCard({ group }: { group: GroupProps }) {
 
       {group.isMember ? (
         <div className="flex gap-2">
-          <Link href={`/fptcolearn/groups/${group.id}`} className="flex-1">
+          <Link href={`/dashboard/groups/${group.id}`} className="flex-1">
             <Button className="w-full bg-[#0D9488]/10 text-[#0D9488] hover:bg-[#0D9488]/20 dark:bg-[#0D9488]/20 dark:text-[#2DD4BF] dark:hover:bg-[#0D9488]/30 font-medium border-none shadow-none">
               Vào nhóm
             </Button>

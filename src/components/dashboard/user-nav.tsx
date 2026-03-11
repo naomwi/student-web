@@ -57,13 +57,13 @@ export function UserNav({ user }: UserNavProps) {
 
         <DropdownMenuGroup>
           <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 dark:focus:bg-indigo-900/30 focus:text-indigo-700 dark:focus:text-indigo-300 cursor-pointer py-2.5">
-            <Link href="/fptcolearn/settings">
+            <Link href="/dashboard/settings">
               <User className="mr-2 h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
               <span className="font-medium">Hồ sơ cá nhân (Cài đặt)</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild className="rounded-lg focus:bg-indigo-50 dark:focus:bg-indigo-900/30 focus:text-indigo-700 dark:focus:text-indigo-300 cursor-pointer py-2.5">
-            <Link href="/fptcolearn/settings">
+            <Link href="/dashboard/settings">
               <Settings className="mr-2 h-4 w-4 text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
               <span className="font-medium">Cài đặt</span>
             </Link>

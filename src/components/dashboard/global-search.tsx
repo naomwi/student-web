@@ -43,7 +43,7 @@ export function GlobalSearch() {
     if (!query.trim()) return;
     setOpen(false);
     // Simple routing based on likely intent. Ideally this queries a backend.
-    router.push(`/fptcolearn/documents?q=${encodeURIComponent(query)}`);
+    router.push(`/dashboard/documents?q=${encodeURIComponent(query)}`);
   };
 
   return (
@@ -67,13 +67,13 @@ export function GlobalSearch() {
 
           <div className="p-2 max-h-[60vh] overflow-y-auto">
             <div className="px-3 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Phím tắt nhanh</div>
-            <Link href="/fptcolearn/documents" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
+            <Link href="/dashboard/documents" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
               <FileText className="h-4 w-4 text-rose-500" /> <span>Tìm tài liệu học tập</span>
             </Link>
-            <Link href="/fptcolearn/qa" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
+            <Link href="/dashboard/qa" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
               <MessageCircleQuestion className="h-4 w-4 text-emerald-500" /> <span>Hỏi đáp cộng đồng</span>
             </Link>
-            <Link href="/fptcolearn/blog" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
+            <Link href="/dashboard/blog" onClick={() => setOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition">
               <BookOpen className="h-4 w-4 text-blue-500" /> <span>Xem bài viết học thuật</span>
             </Link>
           </div>

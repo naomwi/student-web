@@ -33,7 +33,7 @@ export async function updateSession(request: NextRequest) {
 
   const url = request.nextUrl.clone()
   const authRoutes = ['/login', '/register', '/auth']
-  const protectedRoutes = ['/fptcolearn', '/profile', '/settings', '/write']
+  const protectedRoutes = ['/dashboard', '/profile', '/settings', '/write']
   const adminRoutes = ['/admin']
 
   const isAuthRoute = authRoutes.some(path => url.pathname.startsWith(path))
@@ -50,7 +50,7 @@ export async function updateSession(request: NextRequest) {
 
   if (user) {
     if (isAuthRoute) {
-      url.pathname = '/fptcolearn'
+      url.pathname = '/dashboard'
       return NextResponse.redirect(url)
     }
 

@@ -56,7 +56,7 @@ export async function createQuestion(prevState: any, formData: FormData) {
     return { error: "Lỗi hệ thống: " + error.message };
   }
 
-  revalidatePath("/fptcolearn/qa");
+  revalidatePath("/dashboard/qa");
   return { success: "Đã đăng câu hỏi thành công!" };
 }
 
@@ -83,7 +83,7 @@ export async function submitAnswer(prevState: any, formData: FormData) {
 
   if (error) return { error: error.message };
 
-  revalidatePath(`/fptcolearn/qa/${validated.data.questionId}`);
+  revalidatePath(`/dashboard/qa/${validated.data.questionId}`);
   return { success: "Đã gửi câu trả lời!" };
 }
 
@@ -103,6 +103,6 @@ export async function acceptAnswer(answerId: string, questionId: string) {
 
   if (error) return { error: error.message };
 
-  revalidatePath(`/fptcolearn/qa/${questionId}`);
+  revalidatePath(`/dashboard/qa/${questionId}`);
   return { success: "Đã chấp nhận câu trả lời!" };
 }

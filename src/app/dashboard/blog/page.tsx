@@ -55,7 +55,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
                 </div>
               </div>
 
-              <Link href={`/fptcolearn/blog/${post.slug}`} className="block">
+              <Link href={`/dashboard/blog/${post.slug}`} className="block">
                 <h3 className="font-bold text-2xl leading-snug font-display group-hover:text-[#0D9488] dark:group-hover:text-[#2DD4BF] transition-colors">
                   {post.title}
                 </h3>
@@ -88,13 +88,13 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
             <Hash className="mr-2 h-5 w-5 text-[#0D9488]" /> Chủ đề phổ biến
           </h3>
           <div className="flex flex-wrap gap-2">
-            <Link href="/fptcolearn/blog" className={`text-sm px-4 py-1.5 rounded-full border transition-colors ${!tagFilter ? 'bg-[#0D9488] text-white border-[#0D9488]' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 dark:border-slate-700'}`}>
+            <Link href="/dashboard/blog" className={`text-sm px-4 py-1.5 rounded-full border transition-colors ${!tagFilter ? 'bg-[#0D9488] text-white border-[#0D9488]' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 dark:border-slate-700'}`}>
               Tất cả
             </Link>
             {allTags.map(tag => (
               <Link
                 key={tag}
-                href={`/fptcolearn/blog?tag=${tag}`}
+                href={`/dashboard/blog?tag=${tag}`}
                 className={`text-sm px-4 py-1.5 rounded-full border transition-colors ${tagFilter === tag ? 'bg-[#0D9488] text-white border-[#0D9488]' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 dark:border-slate-700'}`}
               >
                 #{tag}
@@ -104,7 +104,7 @@ export default async function BlogListPage({ searchParams }: { searchParams: Pro
         </div>
       </div>
 
-      <FAB href="/fptcolearn/blog/new" icon={<PlusCircle className="h-6 w-6" />} label="Viết bài mới" />
+      <FAB href="/dashboard/blog/new" icon={<PlusCircle className="h-6 w-6" />} label="Viết bài mới" />
     </div>
   );
 }

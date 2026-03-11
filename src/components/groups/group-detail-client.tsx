@@ -22,7 +22,7 @@ export function GroupDetailClient({ group, members, sessions, announcements, cur
         toast.error(res.error);
       } else {
         toast.success("Đã rời nhóm.");
-        router.push("/fptcolearn/groups");
+        router.push("/dashboard/groups");
       }
     });
   };
@@ -36,7 +36,7 @@ export function GroupDetailClient({ group, members, sessions, announcements, cur
   return (
     <div className="space-y-6 font-body pb-20">
       <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2">
-        <Link href="/fptcolearn/groups" className="hover:text-[#0D9488] dark:hover:text-[#2DD4BF] transition flex items-center">
+        <Link href="/dashboard/groups" className="hover:text-[#0D9488] dark:hover:text-[#2DD4BF] transition flex items-center">
           <ArrowLeft className="h-4 w-4 mr-1" /> Quay lại nhóm
         </Link>
       </div>

@@ -35,7 +35,7 @@ export function PostEditor() {
       if (result?.error) {
         toast.error(result.error);
       } else {
-        router.push("/fptcolearn/blog");
+        router.push("/dashboard/blog");
       }
     });
   };
@@ -67,7 +67,7 @@ export function PostEditor() {
 
       <div className="flex justify-end gap-4">
         <Button type="button" variant="ghost" asChild>
-          <Link href="/fptcolearn/blog">Hủy bỏ</Link>
+          <Link href="/dashboard/blog">Hủy bỏ</Link>
         </Button>
         <Button type="submit" disabled={isPending}>
           {isPending ? "Đang đăng..." : "Đăng bài ngay"}
