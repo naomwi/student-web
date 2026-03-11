@@ -25,12 +25,12 @@ export function SidebarNav() {
   const NavContent = () => (
     <>
       <div className="p-8 pb-4">
-        <div className="flex items-center gap-3 mb-8">
+        <Link href="/dashboard" className="flex items-center gap-3 mb-8 hover:opacity-90 transition-opacity" onClick={() => setIsOpen(false)}>
           <div className="bg-gradient-to-tr from-[#0D9488] to-[#2DD4BF] p-2.5 rounded-xl shadow-lg shadow-teal-500/20">
             <GraduationCap className="h-6 w-6 text-white" />
           </div>
           <h2 className="text-2xl font-display font-bold text-white tracking-tight">UniConnect</h2>
-        </div>
+        </Link>
 
         <div className="space-y-1">
           {NAV_ITEMS.map((item) => {
