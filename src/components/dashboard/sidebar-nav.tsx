@@ -45,7 +45,7 @@ export function SidebarNav() {
                 key={item.href} 
                 href={item.href} 
                 onClick={() => setIsOpen(false)}
-                className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 mb-1 font-body text-[15px]
+                className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 mb-1 font-body text-base tracking-wide
                   ${isActive 
                     ? "bg-[#0D9488]/20 text-[#2DD4BF] border-l-4 border-[#2DD4BF]" 
                     : "text-slate-300 hover:text-[#2DD4BF] hover:bg-[#0D9488]/10 border-l-4 border-transparent"
@@ -63,7 +63,7 @@ export function SidebarNav() {
         <Link 
           href="/dashboard/settings" 
           onClick={() => setIsOpen(false)}
-          className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 mb-1 font-body text-[15px]
+          className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 mb-1 font-body text-base tracking-wide
             ${pathname === '/dashboard/settings'
               ? "bg-[#0D9488]/20 text-[#2DD4BF] border-l-4 border-[#2DD4BF]" 
               : "text-slate-300 hover:text-[#2DD4BF] hover:bg-[#0D9488]/10 border-l-4 border-transparent"
@@ -75,9 +75,9 @@ export function SidebarNav() {
 
         <div className="mt-4 pt-4 border-t border-slate-700/50">
           <form action="/auth/signout" method="post">
-            <button className="flex w-full items-center gap-3 px-4 py-3 text-[15px] font-semibold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-xl transition-all duration-200 font-body border-l-4 border-transparent">
+            <button className="flex w-full items-center gap-3 px-4 py-3 text-base tracking-wide font-semibold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-xl transition-all duration-200 font-body border-l-4 border-transparent">
               <LogOut className="h-5 w-5" />
-              <span>Đăng xuất</span>
+              <span className="font-semibold">Đăng xuất</span>
             </button>
           </form>
         </div>

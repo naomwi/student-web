@@ -30,7 +30,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <h1 className="text-3xl font-display font-bold text-[#1a2332] dark:text-slate-100 truncate">
               Xin chào, {user.user_metadata.full_name || profile?.full_name?.split(' ').pop()}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 font-medium mt-1 truncate">Hôm nay bạn muốn học điều gì?</p>
+            <p className="text-slate-500 dark:text-slate-300 font-medium text-lg leading-relaxed mt-2 truncate tracking-wide">Hôm nay bạn muốn học điều gì?</p>
           </div>
 
           <div className="flex items-center gap-4">

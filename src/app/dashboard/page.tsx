@@ -116,9 +116,9 @@ export default async function DashboardPage() {
                   {upcomingSessions.map((session: any) => (
                     <div key={session.id} className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl border-l-4 border-l-[#2DD4BF] shadow-[inset_0_0_0_1px_rgba(45,212,191,0.08)] border-y border-r border-slate-200 dark:border-y-slate-700 dark:border-r-slate-700 hover:border-l-[#0D9488] hover:shadow-md transition duration-300">
                       <div>
-                        <p className="text-xs font-bold text-[#0D9488] dark:text-[#2DD4BF] uppercase tracking-wider mb-1">{session.study_groups?.name}</p>
+                        <p className="text-sm font-bold text-[#0D9488] dark:text-[#2DD4BF] uppercase tracking-wider mb-1">{session.study_groups?.name}</p>
                         <p className="font-bold text-[#1a2332] dark:text-slate-200 text-lg font-display mb-1">{session.topic}</p>
-                        <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 font-medium font-body mt-2">
+                        <div className="flex items-center gap-4 text-[15px] text-slate-500 dark:text-slate-400 font-medium font-body mt-2">
                           <span className="flex items-center">
                             <span className="w-2 h-2 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
                             {new Date(session.start_time).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}

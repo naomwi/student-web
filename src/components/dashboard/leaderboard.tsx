@@ -31,10 +31,10 @@ export async function Leaderboard() {
                     <User className="h-5 w-5 m-1.5 text-gray-400 dark:text-slate-400" />
                   )}
                 </div>
-                <p className="font-medium text-sm truncate max-w-[120px] dark:text-slate-200">{u.full_name}</p>
+                <p className="font-semibold text-[15px] truncate max-w-[140px] dark:text-slate-200">{u.full_name}</p>
               </div>
             </div>
-            <span className="font-bold text-sm text-yellow-700 dark:text-yellow-500">{u.reputation} pts</span>
+            <span className="font-bold text-[15px] text-yellow-700 dark:text-yellow-500">{u.reputation} pts</span>
           </div>
         ))}
         {(!topUsers || topUsers.length === 0) && (
