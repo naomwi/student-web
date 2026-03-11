@@ -52,7 +52,7 @@ export function SidebarNav() {
                   }`}
               >
                 <Icon className={`h-5 w-5 transition-colors ${isActive ? "text-[#2DD4BF]" : "text-slate-400 group-hover:text-[#2DD4BF]"}`} />
-                <span className="font-medium">{item.label}</span>
+                <span className={isActive ? "font-bold" : "font-semibold"}>{item.label}</span>
               </Link>
             );
           })}
@@ -70,12 +70,12 @@ export function SidebarNav() {
             }`}
         >
           <Settings className={`h-5 w-5 transition-colors ${pathname === '/dashboard/settings' ? "text-[#2DD4BF]" : "text-slate-400 group-hover:text-[#2DD4BF]"}`} />
-          <span className="font-medium">Cài đặt</span>
+          <span className={pathname === '/dashboard/settings' ? "font-bold" : "font-semibold"}>Cài đặt</span>
         </Link>
 
         <div className="mt-4 pt-4 border-t border-slate-700/50">
           <form action="/auth/signout" method="post">
-            <button className="flex w-full items-center gap-3 px-4 py-3 text-[15px] font-medium text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-xl transition-all duration-200 font-body border-l-4 border-transparent">
+            <button className="flex w-full items-center gap-3 px-4 py-3 text-[15px] font-semibold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-xl transition-all duration-200 font-body border-l-4 border-transparent">
               <LogOut className="h-5 w-5" />
               <span>Đăng xuất</span>
             </button>
