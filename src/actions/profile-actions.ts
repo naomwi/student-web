@@ -66,9 +66,32 @@ export async function updateProfile(prevState: any, formData: FormData) {
     ? validated.data.skills.split(',').map(s => s.trim()).filter(s => s.length > 0)
     : [];
 
+  const avatarFile = formData.get("avatar_file") as File | null;
+  let finalAvatarUrl = validated.data.avatar_url;
+
+  if (avatarFile && avatarFile.size > 0) {
+    const filePath = `avatars/${user.id}-${Date.now()}.jpg`;
+    
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(filePath, avatarFile, { 
+        upsert: true,
+        contentType: avatarFile.type || 'image/jpeg'
+      });
+    
+    if (uploadError) {
+      console.error("Avatar upload error:", uploadError);
+      return { error: "Lỗi tải ảnh lên: Hãy đảm bảo bạn đã tạo Storage Bucket 'avatars' trên Supabase." };
+    }
+    
+    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(filePath);
+    finalAvatarUrl = publicUrl;
+  }
+
   // Update object
   const updates: any = {
     full_name: validated.data.full_name,
+    avatar_url: finalAvatarUrl || null,
     major: validated.data.major,
     bio: validated.data.bio,
     year: validated.data.year,
@@ -77,39 +100,6 @@ export async function updateProfile(prevState: any, formData: FormData) {
     skills: skillsArray,
     updated_at: new Date().toISOString(),
   };
-
-  const croppedAvatar = formData.get("cropped_avatar") as string;
-  let finalAvatarUrl = validated.data.avatar_url;
-
-  if (croppedAvatar && croppedAvatar.startsWith("data:image")) {
-    try {
-      // Decode base64 to buffer
-      const base64Data = croppedAvatar.split(',')[1];
-      const buffer = Buffer.from(base64Data, 'base64');
-      
-      const filePath = `avatars/${user.id}-${Date.now()}.jpg`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, buffer, { 
-          upsert: true,
-          contentType: 'image/jpeg'
-        });
-      
-      if (uploadError) {
-        console.error("Avatar upload error:", uploadError);
-        return { error: "Lỗi tải ảnh lên: Hãy đảm bảo bạn đã tạo Storage Bucket 'avatars' trên Supabase." };
-      }
-      
-      const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(filePath);
-      finalAvatarUrl = publicUrl;
-    } catch (e) {
-      console.error("Error processing avatar:", e);
-      return { error: "Lỗi xử lý ảnh." };
-    }
-  }
-
-  updates.avatar_url = finalAvatarUrl || null;
 
   if (usernameToUpdate) {
     updates.username = usernameToUpdate;

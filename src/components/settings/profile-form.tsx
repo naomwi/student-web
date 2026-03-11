@@ -88,9 +88,34 @@ export function ProfileForm({ profile }: { profile: any }) {
     setIsCropModalOpen(false);
   }
 
+  const handleAction = (formData: FormData) => {
+    if (croppedImageUrl) {
+      // Convert base64 to Blob
+      const parts = croppedImageUrl.split(',');
+      const base64Data = parts[1];
+      const mime = parts[0].match(/:(.*?);/)?.[1] || 'image/jpeg';
+      
+      const byteString = atob(base64Data);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mime });
+      
+      // Overwrite the avatar_file with the cropped blob
+      formData.set('avatar_file', blob, 'avatar.jpg');
+    }
+    
+    // Clean up to prevent sending huge base64 string
+    formData.delete('cropped_avatar');
+    
+    formAction(formData);
+  };
+
   return (
     <>
-      <form action={formAction} className="space-y-4 relative">
+      <form action={handleAction} className="space-y-4 relative">
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6 pb-6 border-b border-border">
           <div className="h-24 w-24 rounded-full bg-slate-100 dark:bg-slate-800 border-4 border-white dark:border-slate-800 shadow-md overflow-hidden flex items-center justify-center shrink-0 relative group">
             {croppedImageUrl ? (
