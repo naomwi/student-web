@@ -52,7 +52,7 @@ export default function LoginPage() {
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-12">
             <GraduationCap size={32} className="text-[#2DD4BF]" />
-            <span className="text-2xl font-bold font-plus-jakarta">UniConnect</span>
+            <span className="text-2xl font-bold font-plus-jakarta">FPTcolearn</span>
           </div>
           
           <h1 className="text-4xl lg:text-5xl font-bold font-plus-jakarta leading-tight mb-6">
@@ -93,7 +93,7 @@ export default function LoginPage() {
         </div>
         
         <div className="text-sm text-white/80 font-medium font-lato relative z-10">
-          © {new Date().getFullYear()} UniConnect. Bảo lưu mọi quyền.
+          © {new Date().getFullYear()} FPTcolearn. Bảo lưu mọi quyền.
         </div>
       </div>
 

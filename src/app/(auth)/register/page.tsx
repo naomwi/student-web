@@ -52,7 +52,7 @@ export default function RegisterPage() {
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-12">
             <Sparkles size={32} className="text-[#2DD4BF]" />
-            <span className="text-2xl font-bold font-display">UniConnect</span>
+            <span className="text-2xl font-bold font-display">FPTcolearn</span>
           </div>
           
           <h1 className="text-4xl lg:text-5xl font-bold font-display leading-tight mb-6">
@@ -93,7 +93,7 @@ export default function RegisterPage() {
         </div>
         
         <div className="text-sm text-white/80 font-medium font-body relative z-10">
-          © {new Date().getFullYear()} UniConnect. Bảo lưu mọi quyền.
+          © {new Date().getFullYear()} FPTcolearn. Bảo lưu mọi quyền.
         </div>
       </div>
 
@@ -104,7 +104,7 @@ export default function RegisterPage() {
           <div className="md:hidden flex flex-col items-center mb-8">
              <div className="flex items-center gap-2 mb-2">
                 <Sparkles size={28} className="text-[#0D9488] dark:text-[#2DD4BF]" />
-                <span className="text-2xl font-bold text-slate-900 dark:text-white font-display">UniConnect</span>
+                <span className="text-2xl font-bold text-slate-900 dark:text-white font-display">FPTcolearn</span>
              </div>
              <p className="text-slate-500 dark:text-slate-400 font-body text-sm">Học tập & Kết nối</p>
           </div>

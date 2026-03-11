@@ -11,15 +11,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", label: "Tổng quan", icon: LayoutGrid },
-  { href: "/dashboard/blog", label: "Học thuật (Blog)", icon: BookOpen },
-  { href: "/dashboard/documents", label: "Tài nguyên", icon: FileText },
-  { href: "/dashboard/exams", label: "Ngân hàng Đề thi", icon: GraduationCap },
-  { href: "/dashboard/roadmap", label: "Lộ trình học tập", icon: Map },
-  { href: "/dashboard/qa", label: "Hỏi đáp", icon: MessageCircleQuestion },
-  { href: "/dashboard/mentors", label: "Cố vấn (Mentors)", icon: UserCheck },
-  { href: "/dashboard/groups", label: "Nhóm học tập", icon: Users },
-  { href: "/dashboard/faq", label: "Hỗ trợ & FAQ", icon: HelpCircle },
+  { href: "/fptcolearn", label: "Tổng quan", icon: LayoutGrid },
+  { href: "/fptcolearn/blog", label: "Học thuật (Blog)", icon: BookOpen },
+  { href: "/fptcolearn/documents", label: "Tài nguyên", icon: FileText },
+  { href: "/fptcolearn/exams", label: "Ngân hàng Đề thi", icon: GraduationCap },
+  { href: "/fptcolearn/roadmap", label: "Lộ trình học tập", icon: Map },
+  { href: "/fptcolearn/qa", label: "Hỏi đáp", icon: MessageCircleQuestion },
+  { href: "/fptcolearn/mentors", label: "Cố vấn (Mentors)", icon: UserCheck },
+  { href: "/fptcolearn/groups", label: "Nhóm học tập", icon: Users },
+  { href: "/fptcolearn/faq", label: "Hỗ trợ & FAQ", icon: HelpCircle },
 ];
 
 export function SidebarNav() {
@@ -31,16 +31,16 @@ export function SidebarNav() {
     <>
       <div className="p-8 pb-4">
         <div className="flex items-center justify-between mb-8">
-          <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-90 transition-opacity" onClick={() => setIsOpen(false)}>
+          <Link href="/fptcolearn" className="flex items-center gap-3 hover:opacity-90 transition-opacity" onClick={() => setIsOpen(false)}>
             <div className="bg-gradient-to-tr from-[#0D9488] to-[#2DD4BF] p-2.5 rounded-xl shadow-lg shadow-teal-500/20">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-2xl font-display font-bold text-white tracking-tight">UniConnect</h2>
+            <h2 className="text-2xl font-display font-bold text-white tracking-tight">FPTcolearn</h2>
           </Link>
           
           {/* Small Top Avatar (Desktop Only) */}
           <div className="hidden md:block">
-            <Link href="/dashboard/settings" title="Cài đặt tài khoản">
+            <Link href="/fptcolearn/settings" title="Cài đặt tài khoản">
               <Avatar className="h-8 w-8 border border-slate-700 hover:border-[#2DD4BF] transition-colors cursor-pointer">
                 <AvatarImage src={user.avatar_url || ""} />
                 <AvatarFallback className="bg-slate-800 text-slate-300 text-xs">
@@ -97,7 +97,7 @@ export function SidebarNav() {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 bg-[#1a2332] border-slate-800 text-slate-300 rounded-xl shadow-2xl p-2 font-body">
-             <Link href="/dashboard/settings" onClick={() => setIsOpen(false)}>
+             <Link href="/fptcolearn/settings" onClick={() => setIsOpen(false)}>
                <DropdownMenuItem className="cursor-pointer hover:bg-slate-800 hover:text-white rounded-lg py-2.5">
                  <User className="mr-2 h-4 w-4" /> <span>Xem hồ sơ & Cài đặt</span>
                </DropdownMenuItem>

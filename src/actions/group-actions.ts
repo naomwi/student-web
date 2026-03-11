@@ -72,7 +72,7 @@ export async function createGroup(prevState: any, formData: FormData) {
       // We don't return error here because group is created, just warn or ignore
   }
 
-  revalidatePath("/dashboard/groups");
+  revalidatePath("/fptcolearn/groups");
   return { success: true };
 }
 
@@ -92,7 +92,7 @@ export async function joinGroup(groupId: string) {
     return { error: error.message };
   }
 
-  revalidatePath("/dashboard/groups");
+  revalidatePath("/fptcolearn/groups");
   return { success: true };
 }
 
@@ -118,8 +118,8 @@ export async function leaveGroup(groupId: string) {
 
   if (error) return { error: error.message };
 
-  revalidatePath("/dashboard/groups");
-  revalidatePath(`/dashboard/groups/${groupId}`);
+  revalidatePath("/fptcolearn/groups");
+  revalidatePath(`/fptcolearn/groups/${groupId}`);
   return { success: true };
 }
 
@@ -145,7 +145,7 @@ export async function postAnnouncement(groupId: string, content: string) {
 
   if (error) return { error: error.message };
 
-  revalidatePath(`/dashboard/groups/${groupId}`);
+  revalidatePath(`/fptcolearn/groups/${groupId}`);
   return { success: true };
 }
 
@@ -170,7 +170,7 @@ export async function addGroupSession(groupId: string, formData: FormData) {
 
   if (error) return { error: error.message };
 
-  revalidatePath(`/dashboard/groups/${groupId}`);
-  revalidatePath("/dashboard");
+  revalidatePath(`/fptcolearn/groups/${groupId}`);
+  revalidatePath("/fptcolearn");
   return { success: true };
 }

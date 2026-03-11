@@ -33,7 +33,7 @@ export async function addComment(prevState: any, formData: FormData) {
 
   if (error) return { error: "Lỗi hệ thống khi gửi bình luận." };
 
-  revalidatePath(`/dashboard/blog`); 
+  revalidatePath(`/fptcolearn/blog`); 
   // Revalidate cả trang detail (sẽ được gọi dynamic sau)
   return { success: true };
 }

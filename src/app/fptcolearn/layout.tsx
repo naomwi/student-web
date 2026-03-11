@@ -1,12 +1,12 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { UserNav } from "@/components/dashboard/user-nav";
+import { UserNav } from "@/components/fptcolearn/user-nav";
 import { ChatWidget } from "@/components/chat/chat-widget";
 import { ModeToggle } from "@/components/mode-toggle";
-import { SidebarNav } from "@/components/dashboard/sidebar-nav";
+import { SidebarNav } from "@/components/fptcolearn/sidebar-nav";
 import { UserProvider, UserProfile } from "@/context/user-context";
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function FPTcolearnLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 

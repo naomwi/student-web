@@ -91,7 +91,7 @@ export default function QAPage() {
 
               {/* Content Column */}
               <div className="flex-1">
-                <Link href={`/dashboard/qa/${q.id}`} className="block group">
+                <Link href={`/fptcolearn/qa/${q.id}`} className="block group">
                   <h3 className="text-xl font-display font-bold text-[#1a2332] dark:text-slate-100 group-hover:text-[#0D9488] dark:group-hover:text-[#2DD4BF] transition-colors mb-2">{q.title}</h3>
                 </Link>
                 <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 mb-4">{q.content}</p>

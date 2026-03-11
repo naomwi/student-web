@@ -22,7 +22,7 @@ export function DeletePostButton({ postId }: { postId: string }) {
                 alert(result.error);
             } else {
                 alert("Đã xóa bài viết!");
-                router.push("/dashboard/blog");
+                router.push("/fptcolearn/blog");
             }
         });
     };

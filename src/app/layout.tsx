@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "UniConnect - Cộng đồng Sinh viên",
+  title: "FPTcolearn - Cộng đồng Sinh viên",
   description: "Nền tảng kết nối, chia sẻ tài liệu và học tập dành cho sinh viên.",
 };
 

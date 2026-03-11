@@ -121,7 +121,7 @@ export async function updateProfile(prevState: any, formData: FormData) {
     return { error: `Lỗi khi cập nhật hồ sơ: ${error.message}` };
   }
 
-  revalidatePath("/dashboard/settings");
-  revalidatePath("/dashboard/mentors");
+  revalidatePath("/fptcolearn/settings");
+  revalidatePath("/fptcolearn/mentors");
   return { success: "Cập nhật hồ sơ thành công!" };
 }

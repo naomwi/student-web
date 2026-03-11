@@ -44,6 +44,6 @@ Content: ${newContent}`,
 
   if (error) return { error: error.message };
 
-  revalidatePath(`/dashboard/blog`);
+  revalidatePath(`/fptcolearn/blog`);
   return { success: true };
 }

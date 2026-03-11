@@ -25,7 +25,7 @@ export async function saveDocumentMetadata(fileData: {
   });
 
   if (error) return { error: error.message };
-  revalidatePath("/dashboard/documents");
+  revalidatePath("/fptcolearn/documents");
   return { success: true };
 }
 
@@ -77,6 +77,6 @@ export async function deleteDocument(documentId: string, storagePath: string) {
     return { error: "Lỗi hệ thống khi xóa dữ liệu." };
   }
 
-  revalidatePath("/dashboard/documents");
+  revalidatePath("/fptcolearn/documents");
   return { success: true, message: "Đã xóa tài liệu" };
 }

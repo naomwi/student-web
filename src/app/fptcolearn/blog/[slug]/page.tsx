@@ -23,10 +23,10 @@ export async function generateMetadata(
 
   return {
     title: post.title,
-    description: post.excerpt || `Đọc bài viết ${post.title} trên UniConnect`,
+    description: post.excerpt || `Đọc bài viết ${post.title} trên FPTcolearn`,
     openGraph: {
       title: post.title,
-      description: post.excerpt || "Chia sẻ kiến thức cùng cộng đồng sinh viên UniConnect",
+      description: post.excerpt || "Chia sẻ kiến thức cùng cộng đồng sinh viên FPTcolearn",
       type: 'article',
     },
   }
@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: Props) {
     <div className="max-w-3xl mx-auto py-8">
       {/* Back Button */}
       <div className="mb-6">
-        <Link href="/dashboard/blog" className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 transition font-medium">
+        <Link href="/fptcolearn/blog" className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 transition font-medium">
           <ArrowLeft className="mr-2 h-4 w-4" /> Quay lại danh sách
         </Link>
       </div>

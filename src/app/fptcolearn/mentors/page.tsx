@@ -21,7 +21,7 @@ export default async function MentorsPage() {
           <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-slate-100 tracking-tight">Cố vấn học tập (Mentors)</h2>
           <p className="text-slate-500 mt-2">Kết nối với các anh chị khóa trên để được hướng dẫn.</p>
         </div>
-        <Link href="/dashboard/settings#mentor-registration">
+        <Link href="/fptcolearn/settings#mentor-registration">
           <Button variant="outline">Đăng ký (Cài đặt)</Button>
         </Link>
       </div>

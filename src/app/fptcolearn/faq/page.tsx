@@ -10,8 +10,8 @@ export default function FAQPage() {
   const faqs = [
     {
       id: "item-1",
-      question: "UniConnect là gì?",
-      answer: "UniConnect là nền tảng cộng đồng dành riêng cho sinh viên, nơi bạn có thể chia sẻ kiến thức, tài liệu học tập, đặt câu hỏi và tìm nhóm học cùng tiến bộ."
+      question: "FPTcolearn là gì?",
+      answer: "FPTcolearn là nền tảng cộng đồng dành riêng cho sinh viên, nơi bạn có thể chia sẻ kiến thức, tài liệu học tập, đặt câu hỏi và tìm nhóm học cùng tiến bộ."
     },
     {
       id: "item-2",
@@ -31,7 +31,7 @@ export default function FAQPage() {
     {
       id: "item-5",
       question: "Tài liệu trên này có miễn phí không?",
-      answer: "Hoàn toàn miễn phí! UniConnect hoạt động phi lợi nhuận với mục tiêu hỗ trợ sinh viên."
+      answer: "Hoàn toàn miễn phí! FPTcolearn hoạt động phi lợi nhuận với mục tiêu hỗ trợ sinh viên."
     },
     {
       id: "item-6",
@@ -47,7 +47,7 @@ export default function FAQPage() {
           <HelpCircle className="h-8 w-8 text-indigo-600" />
           Câu hỏi thường gặp
         </h1>
-        <p className="text-slate-500">Giải đáp mọi thắc mắc về cách sử dụng UniConnect</p>
+        <p className="text-slate-500">Giải đáp mọi thắc mắc về cách sử dụng FPTcolearn</p>
       </div>
 
       <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
@@ -67,7 +67,7 @@ export default function FAQPage() {
 
       <div className="text-center p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800">
         <p className="text-indigo-900 dark:text-indigo-300 font-medium">Vẫn còn thắc mắc?</p>
-        <p className="text-indigo-600 dark:text-indigo-400 text-sm mt-1">Liên hệ đội ngũ hỗ trợ qua email: support@uniconnect.edu.vn</p>
+        <p className="text-indigo-600 dark:text-indigo-400 text-sm mt-1">Liên hệ đội ngũ hỗ trợ qua email: support@fptcolearn.edu.vn</p>
       </div>
     </div>
   );

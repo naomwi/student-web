@@ -51,7 +51,7 @@ export async function createPost(prevState: any, formData: FormData) {
   }
 
   revalidatePath("/blog");
-  revalidatePath("/dashboard/posts");
+  revalidatePath("/fptcolearn/posts");
 
   return { success: true, message: "Bài viết đã được tạo!" };
 }
@@ -81,8 +81,8 @@ export async function deletePost(postId: string) {
     return { error: "Lỗi hệ thống khi xóa bài viết." };
   }
 
-  revalidatePath("/dashboard/blog");
-  revalidatePath("/dashboard/posts");
+  revalidatePath("/fptcolearn/blog");
+  revalidatePath("/fptcolearn/posts");
 
   return { success: true, message: "Bài viết đã được xóa!" };
 }

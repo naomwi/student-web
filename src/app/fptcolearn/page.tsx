@@ -3,12 +3,12 @@ import { redirect } from "next/navigation";
 import { BookOpen, FileText, Users, Calendar, Activity, ShieldAlert, Sparkles, ArrowUpRight, SearchX, MapPin } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Leaderboard } from "@/components/dashboard/leaderboard";
+import { Leaderboard } from "@/components/fptcolearn/leaderboard";
 import { StatCard } from "@/components/shared/stat-card";
 import { SectionHeader } from "@/components/shared/section-header";
 import { EmptyState } from "@/components/shared/empty-state";
 
-export default async function DashboardPage() {
+export default async function FPTcolearnPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
             <SectionHeader 
               icon={<Calendar className="h-5 w-5" strokeWidth={1.5} />} 
               title="Lịch học sắp tới" 
-              href="/dashboard/groups" 
+              href="/fptcolearn/groups" 
               label="Xem tất cả nhóm" 
             />
             <div className="p-8 pt-0">
@@ -109,7 +109,7 @@ export default async function DashboardPage() {
                   icon={<SearchX className="h-12 w-12 text-slate-300" />} 
                   message="Lịch trình đang trống. Hãy vào nhóm và lên lịch học ngay!" 
                   actionLabel="Vào nhóm học tập" 
-                  actionHref="/dashboard/groups" 
+                  actionHref="/fptcolearn/groups" 
                 />
               ) : (
                 <div className="space-y-4">
@@ -131,7 +131,7 @@ export default async function DashboardPage() {
                           )}
                         </div>
                       </div>
-                      <Link href={`/dashboard/groups/${session.group_id}`}>
+                      <Link href={`/fptcolearn/groups/${session.group_id}`}>
                         <Button variant="ghost" className="text-sm bg-[#0D9488]/10 dark:bg-[#0D9488]/20 text-[#0D9488] dark:text-[#2DD4BF] px-5 py-2.5 rounded-xl hover:bg-[#0D9488]/20 dark:hover:bg-[#0D9488]/30 font-semibold transition font-body h-auto">
                           Vào nhóm <ArrowUpRight className="ml-1 h-4 w-4" />
                         </Button>
@@ -182,7 +182,7 @@ export default async function DashboardPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-teal-50 leading-relaxed">
-                      Chào mừng bạn đến với <span className="text-white font-bold">UniConnect</span>.
+                      Chào mừng bạn đến với <span className="text-white font-bold">FPTcolearn</span>.
                     </p>
                     <span className="text-xs text-teal-200 mt-1 block">Vừa xong</span>
                   </div>
