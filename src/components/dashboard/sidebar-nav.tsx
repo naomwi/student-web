@@ -15,7 +15,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/roadmap", label: "Lộ trình học tập", icon: Map },
   { href: "/dashboard/qa", label: "Hỏi đáp", icon: MessageCircleQuestion },
   { href: "/dashboard/mentors", label: "Cố vấn (Mentors)", icon: UserCheck },
-  { href: "/dashboard/groups", label: "Cộng đồng", icon: Users },
+  { href: "/dashboard/groups", label: "Nhóm học tập", icon: Users },
   { href: "/dashboard/faq", label: "Hỗ trợ & FAQ", icon: HelpCircle },
 ];
 

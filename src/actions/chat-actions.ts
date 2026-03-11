@@ -11,12 +11,20 @@ export async function getChannels(userId: string) {
     .select("*")
     .eq("type", "global");
 
-  // 2. Get Group Channels (where user is member of the group)
-  const { data: groupChannels } = await supabase
-    .from("channels")
-    .select("*, study_groups!inner(study_group_members!inner(user_id))")
-    .eq("type", "group")
-    .eq("study_groups.study_group_members.user_id", userId);
+  // 2. Get Group Channels via user's group memberships
+  const { data: memberGroups } = await supabase
+    .from("study_group_members")
+    .select("study_groups(id, name, channel_id)")
+    .eq("user_id", userId);
+
+  const groupChannels = (memberGroups || [])
+    .map((m: any) => m.study_groups)
+    .filter((g: any) => g?.channel_id)
+    .map((g: any) => ({
+      id: g.channel_id,
+      name: g.name,
+      type: "group" as const,
+    }));
 
   // 3. Get DM Channels
   const { data: dmMemberships } = await supabase
