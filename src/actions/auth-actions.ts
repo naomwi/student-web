@@ -85,7 +85,7 @@ export async function signupAction(values: z.infer<typeof RegisterSchema>) {
     return { error: error.message };
   }
 
-  return { success: "Vui lòng kiểm tra email để xác thực tài khoản!" };
+  redirect("/dashboard");
 }
 
 export async function signOutAction() {
