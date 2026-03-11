@@ -9,6 +9,7 @@ const ProfileUpdateSchema = z.object({
   username: z.string().min(3, "Username tối thiểu 3 ký tự").regex(/^[a-zA-Z0-9_]+$/, "Username chỉ chứa chữ, số và _").optional().or(z.literal("")),
   major: z.string().optional(),
   bio: z.string().max(500, "Bio tối đa 500 ký tự").optional().or(z.literal("")),
+  avatar_url: z.string().url("Link ảnh không hợp lệ").optional().or(z.literal("")),
   year: z.coerce.number().min(1).max(10).optional(),
   is_mentor: z.boolean().optional(),
   linkedin_url: z.string().optional().or(z.literal("")),
@@ -26,6 +27,7 @@ export async function updateProfile(prevState: any, formData: FormData) {
     username: formData.get("username"),
     major: formData.get("major"),
     bio: formData.get("bio"),
+    avatar_url: formData.get("avatar_url"),
     // Fix: Convert empty string to undefined so optional() works, otherwise coerce makes it 0
     year: formData.get("year") ? formData.get("year") : undefined,
     is_mentor: formData.get("is_mentor") === "on",
@@ -67,6 +69,7 @@ export async function updateProfile(prevState: any, formData: FormData) {
   // Update object
   const updates: any = {
     full_name: validated.data.full_name,
+    avatar_url: validated.data.avatar_url || null,
     major: validated.data.major,
     bio: validated.data.bio,
     year: validated.data.year,
