@@ -43,12 +43,28 @@ export async function createGroup(prevState: any, formData: FormData) {
     }
   }
 
+  // Create a channel for the group
+  const { data: channel, error: channelError } = await supabase
+    .from("channels")
+    .insert({
+      name: validated.data.name,
+      type: "group"
+    })
+    .select()
+    .single();
+
+  if (channelError) {
+    console.error("Error creating group channel:", channelError);
+    return { error: "Lỗi tạo kênh chat: " + channelError.message };
+  }
+
   const { data: group, error } = await supabase
     .from("study_groups")
     .insert({
       leader_id: user.id,
       name: validated.data.name,
       description: validated.data.description,
+      channel_id: channel.id
     })
     .select()
     .single();
