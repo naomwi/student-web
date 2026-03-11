@@ -23,7 +23,7 @@ interface UserNavProps {
   user: {
     email: string;
     full_name?: string;
-    avatar_url?: string;
+    avatar_url?: string | null;
     username?: string;
   };
 }
@@ -34,7 +34,7 @@ export function UserNav({ user }: UserNavProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-12 w-12 rounded-full ring-2 ring-white ring-offset-2 ring-offset-indigo-50 hover:scale-105 transition-all duration-300">
           <Avatar className="h-12 w-12 border-2 border-white shadow-lg">
-            <AvatarImage src={user.avatar_url} alt={user.full_name || ""} className="object-cover" />
+            <AvatarImage src={user.avatar_url || ""} alt={user.full_name || ""} className="object-cover" />
             <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-lg">
               {user.email?.[0]?.toUpperCase() || "U"}
             </AvatarFallback>
