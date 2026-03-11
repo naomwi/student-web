@@ -1,3 +1,7 @@
+-- Thêm cột channel_id nếu chưa có
+ALTER TABLE study_groups 
+ADD COLUMN IF NOT EXISTS channel_id UUID REFERENCES channels(id) ON DELETE SET NULL;
+
 DO $$
 DECLARE
     grp RECORD;
