@@ -23,16 +23,15 @@ export async function updateProfile(prevState: any, formData: FormData) {
   if (!user) return { error: "Unauthorized" };
 
   const rawData = {
-    full_name: formData.get("full_name"),
-    username: formData.get("username"),
-    major: formData.get("major"),
-    bio: formData.get("bio"),
-    avatar_url: formData.get("avatar_url"),
-    // Fix: Convert empty string to undefined so optional() works, otherwise coerce makes it 0
+    full_name: formData.get("full_name")?.toString() || "",
+    username: formData.get("username")?.toString() || "",
+    major: formData.get("major")?.toString() || "",
+    bio: formData.get("bio")?.toString() || "",
+    avatar_url: formData.get("avatar_url")?.toString() || "",
     year: formData.get("year") ? formData.get("year") : undefined,
     is_mentor: formData.get("is_mentor") === "on",
-    linkedin_url: formData.get("linkedin_url") || "",
-    skills: formData.get("skills") || "",
+    linkedin_url: formData.get("linkedin_url")?.toString() || "",
+    skills: formData.get("skills")?.toString() || "",
   };
 
   const validated = ProfileUpdateSchema.safeParse(rawData);
@@ -72,9 +71,13 @@ export async function updateProfile(prevState: any, formData: FormData) {
   if (avatarFile && avatarFile.size > 0) {
     const filePath = `avatars/${user.id}-${Date.now()}.jpg`;
     
+    // In Next.js Server Actions, raw File objects can cause "Invalid input" during fetch. Convert to buffer.
+    const arrayBuffer = await avatarFile.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
     const { error: uploadError } = await supabase.storage
       .from('avatars')
-      .upload(filePath, avatarFile, { 
+      .upload(filePath, buffer, { 
         upsert: true,
         contentType: avatarFile.type || 'image/jpeg'
       });
