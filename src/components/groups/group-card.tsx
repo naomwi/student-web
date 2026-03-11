@@ -1,12 +1,11 @@
 "use client";
 
-import { joinGroup } from "@/actions/group-actions";
+import { joinGroup, leaveGroup } from "@/actions/group-actions";
 import { Button } from "@/components/ui/button";
-import { Users, MapPin, ExternalLink } from "lucide-react";
+import { Users, MapPin, ExternalLink, LogOut } from "lucide-react";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface GroupProps {
   id: string;
@@ -16,6 +15,7 @@ interface GroupProps {
   memberCount: number;
   isMember: boolean;
   meetingLink?: string;
+  leader_id?: string;
 }
 
 export function GroupCard({ group }: { group: GroupProps }) {
@@ -28,6 +28,17 @@ export function GroupCard({ group }: { group: GroupProps }) {
         toast.error(res.error);
       } else {
         toast.success("Tham gia nhóm thành công!");
+      }
+    });
+  };
+
+  const handleLeave = () => {
+    startTransition(async () => {
+      const res = await leaveGroup(group.id);
+      if (res?.error) {
+        toast.error(res.error);
+      } else {
+        toast.success("Đã rời nhóm.");
       }
     });
   };
@@ -82,14 +93,32 @@ export function GroupCard({ group }: { group: GroupProps }) {
         </div>
       </div>
 
-      <Button
-        onClick={handleJoin}
-        disabled={group.isMember || isPending}
-        className={`w-full font-medium ${group.isMember ? 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-none' : 'bg-[#0D9488] hover:bg-[#0f766e] text-white shadow-md shadow-teal-500/20'}`}
-        variant={group.isMember ? "outline" : "default"}
-      >
-        {group.isMember ? "Đã tham gia" : (isPending ? "Đang tham gia..." : "Tham gia nhóm")}
-      </Button>
+      {group.isMember ? (
+        <div className="flex gap-2">
+          <Link href={`/dashboard/groups/${group.id}`} className="flex-1">
+            <Button className="w-full bg-[#0D9488]/10 text-[#0D9488] hover:bg-[#0D9488]/20 dark:bg-[#0D9488]/20 dark:text-[#2DD4BF] dark:hover:bg-[#0D9488]/30 font-medium border-none shadow-none">
+              Vào nhóm
+            </Button>
+          </Link>
+          <Button 
+            onClick={handleLeave} 
+            disabled={isPending}
+            variant="outline"
+            className="border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 px-3"
+            title="Rời nhóm"
+          >
+            <LogOut className="h-4 w-4" />
+          </Button>
+        </div>
+      ) : (
+        <Button
+          onClick={handleJoin}
+          disabled={isPending}
+          className="w-full font-medium bg-[#0D9488] hover:bg-[#0f766e] text-white shadow-md shadow-teal-500/20"
+        >
+          {isPending ? "Đang tham gia..." : "Tham gia nhóm"}
+        </Button>
+      )}
     </div>
   );
 }

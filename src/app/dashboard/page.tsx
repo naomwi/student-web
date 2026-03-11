@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { BookOpen, FileText, Users, Calendar, Activity, ShieldAlert, Sparkles, ArrowUpRight, SearchX } from "lucide-react";
+import { BookOpen, FileText, Users, Calendar, Activity, ShieldAlert, Sparkles, ArrowUpRight, SearchX, MapPin } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Leaderboard } from "@/components/dashboard/leaderboard";
@@ -33,23 +33,33 @@ export default async function DashboardPage() {
     reports = data || [];
   }
 
-  const { data: upcomingGroups } = await supabase.from("study_group_members").select("study_groups(name, meeting_link, location)").eq("user_id", user.id).limit(3);
+  // Fetch upcoming sessions from groups user is in
+  const { data: upcomingSessions } = await supabase
+    .from("group_sessions")
+    .select("*, study_groups!inner(name)")
+    .gte("start_time", new Date().toISOString())
+    .order("start_time", { ascending: true })
+    .limit(3);
+  // Optional: RLS handles filtering if setup correctly, else need a custom join query or RPC.
+  // Assuming RLS policy handles "members can read" for group_sessions.
 
   return (
     <div className="space-y-10 pb-10">
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row justify-between md:items-end gap-6">
-        <div>
-          <h2 className="text-4xl font-display font-bold text-[#1a2332] dark:text-white tracking-tight mb-2">
+        <div className="w-full">
+          <h2 className="text-4xl font-display font-bold tracking-tight mb-2 bg-gradient-to-r from-[#0D9488] via-[#2DD4BF] to-indigo-400 bg-clip-text text-transparent">
             Tổng quan
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2 font-body">
-            <Sparkles className="h-4 w-4 text-amber-500" strokeWidth={1.5} />
-            Chào mừng trở lại, chúc bạn một ngày bùng nổ năng lượng!
-          </p>
+          <div className="mt-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-teal-50 to-indigo-50 dark:from-teal-900/20 dark:to-indigo-900/20 border border-teal-100 dark:border-teal-900/30 flex items-center gap-3 w-fit">
+            <Sparkles className="h-4 w-4 text-amber-500" />
+            <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
+              Chào mừng trở lại! Chúc bạn một ngày học tập bùng nổ 🚀
+            </p>
+          </div>
         </div>
         {isAdmin && (
-          <span className="bg-rose-50 text-rose-600 border border-rose-100 px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm">
+          <span className="bg-rose-50 text-rose-600 border border-rose-100 px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm shrink-0">
             <ShieldAlert className="h-4 w-4" strokeWidth={1.5} /> ADMIN MODE
           </span>
         )}
@@ -85,38 +95,47 @@ export default async function DashboardPage() {
         {/* LEFT COLUMN (8/12) */}
         <div className="lg:col-span-8 space-y-8">
 
-          {/* Upcoming Groups Card */}
+          {/* Upcoming Sessions Card */}
           <div className="bg-white dark:bg-[#1a2332] rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden group">
             <SectionHeader 
               icon={<Calendar className="h-5 w-5" strokeWidth={1.5} />} 
               title="Lịch học sắp tới" 
               href="/dashboard/groups" 
-              label="Xem tất cả" 
+              label="Xem tất cả nhóm" 
             />
             <div className="p-8 pt-0">
-              {upcomingGroups?.length === 0 ? (
+              {!upcomingSessions || upcomingSessions.length === 0 ? (
                 <EmptyState 
                   icon={<SearchX className="h-12 w-12 text-slate-300" />} 
-                  message="Lịch trình đang trống. Hãy tham gia một nhóm học tập!" 
-                  actionLabel="Tìm nhóm ngay" 
+                  message="Lịch trình đang trống. Hãy vào nhóm và lên lịch học ngay!" 
+                  actionLabel="Vào nhóm học tập" 
                   actionHref="/dashboard/groups" 
                 />
               ) : (
                 <div className="space-y-4">
-                  {upcomingGroups?.map((item: any, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl border-l-4 border-l-[#2DD4BF] border border-y-slate-200 border-r-slate-200 dark:border-y-slate-700 dark:border-r-slate-700 shadow-sm hover:border-l-[#0D9488] hover:shadow-md transition duration-300">
+                  {upcomingSessions.map((session: any) => (
+                    <div key={session.id} className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 rounded-2xl border-l-4 border-l-[#2DD4BF] shadow-[inset_0_0_0_1px_rgba(45,212,191,0.08)] border-y border-r border-slate-200 dark:border-y-slate-700 dark:border-r-slate-700 hover:border-l-[#0D9488] hover:shadow-md transition duration-300">
                       <div>
-                        <p className="font-bold text-[#1a2332] dark:text-slate-200 text-lg font-display">{item.study_groups?.name}</p>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1 flex items-center font-body">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
-                          {item.study_groups?.location}
-                        </p>
+                        <p className="text-xs font-bold text-[#0D9488] dark:text-[#2DD4BF] uppercase tracking-wider mb-1">{session.study_groups?.name}</p>
+                        <p className="font-bold text-[#1a2332] dark:text-slate-200 text-lg font-display mb-1">{session.topic}</p>
+                        <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 font-medium font-body mt-2">
+                          <span className="flex items-center">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 mr-2 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
+                            {new Date(session.start_time).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}
+                          </span>
+                          {session.location && (
+                            <span className="flex items-center">
+                              <MapPin className="w-3.5 h-3.5 mr-1 text-slate-400" />
+                              {session.location}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      {item.study_groups?.meeting_link && (
-                        <a href={item.study_groups.meeting_link} target="_blank" className="text-sm bg-[#0D9488]/10 dark:bg-[#0D9488]/20 text-[#0D9488] dark:text-[#2DD4BF] px-5 py-2.5 rounded-xl hover:bg-[#0D9488]/20 dark:hover:bg-[#0D9488]/30 font-semibold transition font-body">
-                          Vào lớp
-                        </a>
-                      )}
+                      <Link href={`/dashboard/groups/${session.group_id}`}>
+                        <Button variant="ghost" className="text-sm bg-[#0D9488]/10 dark:bg-[#0D9488]/20 text-[#0D9488] dark:text-[#2DD4BF] px-5 py-2.5 rounded-xl hover:bg-[#0D9488]/20 dark:hover:bg-[#0D9488]/30 font-semibold transition font-body h-auto">
+                          Vào nhóm <ArrowUpRight className="ml-1 h-4 w-4" />
+                        </Button>
+                      </Link>
                     </div>
                   ))}
                 </div>
