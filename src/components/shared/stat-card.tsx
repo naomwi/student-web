@@ -41,9 +41,9 @@ export function StatCard({ title, value, icon, desc, gradient }: Props) {
   }, [value]);
 
   const gradientStyles = {
-    teal: "from-teal-500 to-cyan-600 dark:from-teal-900 dark:to-cyan-950",
-    orange: "from-orange-400 to-rose-500 dark:from-orange-900 dark:to-rose-950",
-    violet: "from-indigo-500 to-violet-600 dark:from-indigo-900 dark:to-violet-950",
+    teal: "from-teal-500 to-cyan-600 dark:from-teal-700 dark:to-teal-800",
+    orange: "from-orange-400 to-rose-500 dark:from-orange-700 dark:to-rose-800",
+    violet: "from-indigo-500 to-violet-600 dark:from-indigo-700 dark:to-violet-800",
   };
 
   return (

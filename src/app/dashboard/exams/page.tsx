@@ -50,11 +50,11 @@ export default async function ExamBankPage({ searchParams }: { searchParams: Pro
               <div>
                 <label className="text-xs font-semibold text-slate-500 uppercase mb-2 block">Năm học</label>
                 <div className="space-y-1">
-                  <Link href="/dashboard/exams" className={`block text-sm px-3 py-2 rounded-lg transition ${!yearFilter ? 'bg-indigo-50 text-indigo-700 font-medium' : 'hover:bg-slate-50 text-slate-600'}`}>
+                  <Link href="/dashboard/exams" className={`block text-sm px-3 py-2 rounded-lg transition ${!yearFilter ? 'bg-[#0D9488]/10 text-[#0D9488] font-medium' : 'hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'}`}>
                     Tất cả
                   </Link>
                   {years.map(y => (
-                    <Link key={y} href={`/dashboard/exams?year=${y}`} className={`block text-sm px-3 py-2 rounded-lg transition ${yearFilter === y ? 'bg-indigo-50 text-indigo-700 font-medium' : 'hover:bg-slate-50 text-slate-600'}`}>
+                    <Link key={y} href={`/dashboard/exams?year=${y}`} className={`block text-sm px-3 py-2 rounded-lg transition ${yearFilter === y ? 'bg-[#0D9488]/10 text-[#0D9488] font-medium' : 'hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'}`}>
                       {y}
                     </Link>
                   ))}

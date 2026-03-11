@@ -18,10 +18,10 @@ export async function Leaderboard() {
       </div>
       <div className="divide-y divide-slate-100 dark:divide-slate-800">
         {topUsers?.map((u, idx) => (
-          <div key={u.id || idx} className="p-3 flex items-center justify-between hover:bg-yellow-50/30 dark:hover:bg-slate-800/50 transition">
+          <div key={u.id || idx} className={`p-3 flex items-center justify-between hover:bg-yellow-50/30 dark:hover:bg-slate-800/50 transition ${idx === 0 ? 'bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl m-1' : ''}`}>
             <div className="flex items-center gap-3">
-              <span className={`font-bold w-6 text-center ${idx === 0 ? 'text-yellow-600 dark:text-yellow-500 text-lg' : 'text-gray-500 dark:text-slate-500'}`}>
-                #{idx + 1}
+              <span className={`font-bold w-6 text-center flex justify-center ${idx === 0 ? 'text-yellow-600 dark:text-yellow-500 text-lg' : 'text-gray-500 dark:text-slate-500'}`}>
+                {idx === 0 ? '🥇' : `#${idx + 1}`}
               </span>
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden">
