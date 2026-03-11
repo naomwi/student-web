@@ -109,7 +109,7 @@ export async function getMessages(channelId: string) {
 
   const { data: messages } = await supabase
     .from("messages")
-    .select("*, profiles(full_name, avatar_url)")
+    .select("*, profiles(full_name, avatar_url, reputation)")
     .eq("channel_id", channelId)
     .order("created_at", { ascending: true });
 

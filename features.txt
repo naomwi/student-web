@@ -1,0 +1,60 @@
+Danh sách các tính năng của nền tảng FPTcolearn:
+
+1. Xác thực người dùng (Authentication)
+   - Đăng nhập và Đăng ký tài khoản an toàn (sử dụng Supabase Auth).
+   - Phân quyền người dùng (User, Admin).
+   - Middleware bảo vệ các trang nội bộ bắt buộc đăng nhập.
+
+2. Bảng điều khiển tổng quan (Dashboard)
+   - Xem thống kê nhanh (số bài viết, số tài liệu chia sẻ, số nhóm tham gia).
+   - Hiển thị lịch học sắp tới từ các nhóm.
+   - Bảng xếp hạng (Leaderboard) học tập.
+   - Hệ thống Gamification: Điểm danh tiếng (Reputation) và Danh hiệu/Cấp độ.
+
+3. Học thuật & Blog (Academic Blog)
+   - Viết, chỉnh sửa và chia sẻ bài viết kiến thức.
+   - Trình soạn thảo văn bản giàu định dạng (Tiptap Rich Text Editor).
+   - Bình luận (Comments) và tương tác trên bài viết.
+   - Lọc bài viết theo Thẻ (Tags).
+
+4. Quản lý Tài liệu & Tài nguyên (Documents)
+   - Tải lên (Upload) tài liệu để chia sẻ cho cộng đồng.
+   - Tìm kiếm, lọc và Tải xuống (Download) tài liệu.
+   - Xóa tài liệu cá nhân.
+
+5. Hỏi đáp cộng đồng (Q&A)
+   - Đặt câu hỏi thảo luận hoặc nhờ giải bài tập.
+   - Người khác có thể vào trả lời.
+   - Chức năng đánh dấu câu trả lời hay nhất / chính xác nhất (Accept Answer).
+
+6. Nhóm học tập (Study Groups)
+   - Tạo nhóm học tập mới hoặc tham gia nhóm hiện có.
+   - Trò chuyện theo thời gian thực (Real-time Chat).
+   - Bảng tin/Thông báo của nhóm (Announcements).
+   - Tạo và quản lý lịch học (Sessions).
+
+7. Ngân hàng Đề thi (Exams)
+   - Lưu trữ các đề thi cũ, tài liệu ôn thi.
+   - Lọc đề thi theo năm hoặc môn học.
+
+8. Lộ trình học tập (Roadmap)
+   - Cung cấp lộ trình và hướng dẫn các bước học tập.
+
+9. Cố vấn học tập (Mentors)
+   - Xem danh sách các cố vấn học tập (Mentor).
+   - Đăng ký xét duyệt trở thành Cố vấn để giúp đỡ sinh viên khác.
+
+10. Gia sư AI (AI Tutor)
+    - Tích hợp khung Chatbot trợ lý ảo bằng AI.
+    - Hỗ trợ giải đáp nhanh các thắc mắc học thuật, 24/7.
+
+11. Quản lý Hồ sơ & Cài đặt (Settings)
+    - Chỉnh sửa thông tin cá nhân, ảnh đại diện (Avatar).
+    - Đổi mật khẩu.
+
+12. Công cụ Quản trị viên (Admin Tools)
+    - Duyệt và xử lý các báo cáo vi phạm (Reports) từ người dùng.
+
+13. Trải nghiệm người dùng (UI/UX)
+    - Tìm kiếm toàn cục (Global Search) nhanh tài liệu, bài viết.
+    - Hỗ trợ Chế độ Tối (Dark Mode) và giao diện thân thiện với thiết bị di động.

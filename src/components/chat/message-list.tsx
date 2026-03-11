@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getTierFromPoints } from "@/lib/level";
 
 interface Message {
   id: string;
@@ -16,6 +17,7 @@ interface Message {
   profiles: {
     full_name: string;
     avatar_url: string;
+    reputation?: number;
   };
 }
 
@@ -45,7 +47,7 @@ export function MessageList({ channel, userId }: { channel: { id: string }, user
         async (payload) => {
           const { data } = await supabase
             .from('messages')
-            .select("*, profiles(full_name, avatar_url)")
+            .select("*, profiles(full_name, avatar_url, reputation)")
             .eq('id', payload.new.id)
             .single();
 
@@ -72,7 +74,7 @@ export function MessageList({ channel, userId }: { channel: { id: string }, user
       content: text,
       user_id: userId,
       created_at: new Date().toISOString(),
-      profiles: { full_name: "Bạn", avatar_url: "" }
+      profiles: { full_name: "Bạn", avatar_url: "", reputation: 0 }
     };
     setMessages(prev => [...prev, tempMsg]);
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
@@ -94,6 +96,10 @@ export function MessageList({ channel, userId }: { channel: { id: string }, user
           messages.map((msg, idx) => {
             const isMe = msg.user_id === userId;
             const showAvatar = idx === 0 || messages[idx - 1].user_id !== msg.user_id;
+            const tier = getTierFromPoints(msg.profiles?.reputation || 0);
+            // Extract text color and dark text color only
+            const tierTextColors = tier.color.split(' ').filter(c => c.startsWith('text-') || c.startsWith('dark:text-')).join(' ');
+            const timeString = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             return (
               <div key={msg.id} className={`flex gap-3 ${isMe ? "flex-row-reverse" : "flex-row"} ${msg.id.startsWith("temp-") ? "opacity-70" : ""}`}>
@@ -112,8 +118,15 @@ export function MessageList({ channel, userId }: { channel: { id: string }, user
                     ? "bg-[#0D9488] text-white rounded-br-none shadow-sm"
                     : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-bl-none shadow-sm"
                   }`}>
-                  {!isMe && showAvatar && <p className="text-[10px] text-slate-400 mb-1 font-bold">{msg.profiles?.full_name}</p>}
+                  {!isMe && showAvatar && (
+                    <p className={`text-[11px] mb-1 font-bold ${tierTextColors}`}>
+                      {msg.profiles?.full_name}
+                    </p>
+                  )}
                   <p className="leading-relaxed">{msg.content}</p>
+                  <div className={`text-[9px] mt-1 text-right ${isMe ? 'text-teal-100' : 'text-slate-400'}`}>
+                    {timeString}
+                  </div>
                 </div>
               </div>
             );
