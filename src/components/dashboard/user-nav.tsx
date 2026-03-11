@@ -72,13 +72,14 @@ export function UserNav({ user }: UserNavProps) {
 
         <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 my-2" />
 
-        <DropdownMenuItem
-          className="rounded-lg text-rose-600 dark:text-rose-400 focus:bg-rose-50 dark:focus:bg-rose-900/30 focus:text-rose-700 dark:focus:text-rose-300 cursor-pointer py-2.5"
-          onClick={async () => await signOutAction()}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          <span className="font-medium">Đăng xuất</span>
-        </DropdownMenuItem>
+        <form action={signOutAction}>
+          <DropdownMenuItem asChild>
+            <button type="submit" className="w-full flex items-center rounded-lg text-rose-600 dark:text-rose-400 focus:bg-rose-50 dark:focus:bg-rose-900/30 focus:text-rose-700 dark:focus:text-rose-300 cursor-pointer py-2.5">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span className="font-medium">Đăng xuất</span>
+            </button>
+          </DropdownMenuItem>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );
