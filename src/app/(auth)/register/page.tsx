@@ -1,6 +1,17 @@
 import { RegisterForm } from "@/components/auth/register-form";
 import { Sparkles, Users, BookOpen, MessageCircle } from "lucide-react";
 
+const bgImages = [
+  "/bg/dai-hoc-fpt-tp-hcm-9.jpeg",
+  "/bg/f7a166f1fa0d5953001c20240623081930.jpg",
+  "/bg/fptu-hcm.png",
+  "/bg/Hero-banner-webFPTU-2026-Campus-HCM-1-1.png",
+  "/bg/Hoc-phi-he-dai-hoc-FPT-02.jpeg",
+  "/bg/review-dai-hoc-fpt-1.jpg",
+  "/bg/truong-dai-hoc-fpt-hcm-2-1719049886.jpeg",
+  "/bg/z7091886271531_89f9639ebf949483a8692c605087bee1.jpg"
+];
+
 export default function RegisterPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-slate-50 dark:bg-[#1a2332]">
@@ -11,7 +22,7 @@ export default function RegisterPage() {
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none flex justify-center items-center transform -rotate-12 scale-150">
           {/* Strip 1 */}
           <div className="w-64 h-[300%] flex flex-col gap-4 animate-scroll-film mr-8">
-            {Array.from({ length: 8 }).map((_, i) => (
+            {Array.from({ length: 16 }).map((_, i) => (
               <div key={i} className="relative w-full h-40 bg-black/60 border-x-8 border-black flex flex-col justify-between py-2 shrink-0 shadow-2xl">
                  {/* Top sprockets */}
                  <div className="w-full flex justify-around px-2">
@@ -19,7 +30,7 @@ export default function RegisterPage() {
                  </div>
                  {/* Image */}
                  <div className="absolute inset-y-7 inset-x-2 bg-black overflow-hidden">
-                    <img src="/bg/fptu-hcm.png" alt="FPT Background" className="w-full h-full object-cover opacity-70 grayscale contrast-125" />
+                    <img src={bgImages[i % bgImages.length]} alt="FPT Background" className="w-full h-full object-cover opacity-70 grayscale contrast-125" />
                  </div>
                  {/* Bottom sprockets */}
                  <div className="w-full flex justify-around px-2">
@@ -30,7 +41,7 @@ export default function RegisterPage() {
           </div>
           {/* Strip 2 */}
           <div className="w-64 h-[300%] flex flex-col gap-4 animate-scroll-film" style={{ animationDelay: '-15s' }}>
-            {Array.from({ length: 8 }).map((_, i) => (
+            {Array.from({ length: 16 }).map((_, i) => (
               <div key={i} className="relative w-full h-40 bg-black/60 border-x-8 border-black flex flex-col justify-between py-2 shrink-0 shadow-2xl">
                  {/* Top sprockets */}
                  <div className="w-full flex justify-around px-2">
@@ -38,7 +49,7 @@ export default function RegisterPage() {
                  </div>
                  {/* Image */}
                  <div className="absolute inset-y-7 inset-x-2 bg-black overflow-hidden">
-                    <img src="/bg/fptu-hcm.png" alt="FPT Background" className="w-full h-full object-cover opacity-70 grayscale contrast-125" />
+                    <img src={bgImages[i % bgImages.length]} alt="FPT Background" className="w-full h-full object-cover opacity-70 grayscale contrast-125" />
                  </div>
                  {/* Bottom sprockets */}
                  <div className="w-full flex justify-around px-2">
