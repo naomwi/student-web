@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, FileText, Users, LayoutGrid, Settings, MessageCircleQuestion, GraduationCap, HelpCircle, UserCheck, Map, LogOut, Menu, X } from "lucide-react";
+import { BookOpen, FileText, Users, LayoutGrid, Settings, MessageCircleQuestion, GraduationCap, HelpCircle, UserCheck, Map, LogOut, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { GlobalSearch } from "./global-search";
+import { useUser } from "@/context/user-context";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutGrid },
@@ -22,16 +25,31 @@ const NAV_ITEMS = [
 export function SidebarNav() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { user, tier } = useUser();
 
   const NavContent = () => (
     <>
       <div className="p-8 pb-4">
-        <Link href="/dashboard" className="flex items-center gap-3 mb-8 hover:opacity-90 transition-opacity" onClick={() => setIsOpen(false)}>
-          <div className="bg-gradient-to-tr from-[#0D9488] to-[#2DD4BF] p-2.5 rounded-xl shadow-lg shadow-teal-500/20">
-            <GraduationCap className="h-6 w-6 text-white" />
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-90 transition-opacity" onClick={() => setIsOpen(false)}>
+            <div className="bg-gradient-to-tr from-[#0D9488] to-[#2DD4BF] p-2.5 rounded-xl shadow-lg shadow-teal-500/20">
+              <GraduationCap className="h-6 w-6 text-white" />
+            </div>
+            <h2 className="text-2xl font-display font-bold text-white tracking-tight">UniConnect</h2>
+          </Link>
+          
+          {/* Small Top Avatar (Desktop Only) */}
+          <div className="hidden md:block">
+            <Link href="/dashboard/settings" title="Cài đặt tài khoản">
+              <Avatar className="h-8 w-8 border border-slate-700 hover:border-[#2DD4BF] transition-colors cursor-pointer">
+                <AvatarImage src={user.avatar_url || ""} />
+                <AvatarFallback className="bg-slate-800 text-slate-300 text-xs">
+                  {user.full_name?.charAt(0) || <User size={14} />}
+                </AvatarFallback>
+              </Avatar>
+            </Link>
           </div>
-          <h2 className="text-2xl font-display font-bold text-white tracking-tight">UniConnect</h2>
-        </Link>
+        </div>
 
         <GlobalSearch />
 
@@ -59,28 +77,41 @@ export function SidebarNav() {
         </div>
       </div>
 
-      <div className="mt-auto p-8 pt-0">
-        <Link 
-          href="/dashboard/settings" 
-          onClick={() => setIsOpen(false)}
-          className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 mb-1 font-body text-base tracking-wide
-            ${pathname === '/dashboard/settings'
-              ? "bg-[#0D9488]/20 text-[#2DD4BF] border-l-4 border-[#2DD4BF]" 
-              : "text-slate-300 hover:text-[#2DD4BF] hover:bg-[#0D9488]/10 border-l-4 border-transparent"
-            }`}
-        >
-          <Settings className={`h-5 w-5 transition-colors ${pathname === '/dashboard/settings' ? "text-[#2DD4BF]" : "text-slate-400 group-hover:text-[#2DD4BF]"}`} />
-          <span className={pathname === '/dashboard/settings' ? "font-bold" : "font-semibold"}>Cài đặt</span>
-        </Link>
-
-        <div className="mt-4 pt-4 border-t border-slate-700/50">
-          <form action="/auth/signout" method="post">
-            <button className="flex w-full items-center gap-3 px-4 py-3 text-base tracking-wide font-semibold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-xl transition-all duration-200 font-body border-l-4 border-transparent">
-              <LogOut className="h-5 w-5" />
-              <span className="font-semibold">Đăng xuất</span>
-            </button>
-          </form>
-        </div>
+      {/* Bottom User Card / Dropdown Area */}
+      <div className="mt-auto p-6 pt-0">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 cursor-pointer transition-all duration-200 mb-4 font-body group">
+              <Avatar className="h-10 w-10 border border-slate-600 shadow-sm group-hover:border-[#2DD4BF] transition-colors">
+                <AvatarImage src={user.avatar_url || ""} />
+                <AvatarFallback className="bg-slate-700 text-white font-bold">
+                  {user.full_name?.charAt(0) || <User size={18} />}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-white truncate group-hover:text-[#2DD4BF] transition-colors">{user.full_name}</p>
+                <p className="text-[11px] font-medium text-slate-400 flex items-center mt-0.5 truncate">
+                  <span className="mr-1" title={tier.name}>{tier.emoji}</span> {tier.name} <span className="mx-1">•</span> <span className="text-[#2DD4BF] font-bold">{user.reputation}pt</span>
+                </p>
+              </div>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56 bg-[#1a2332] border-slate-800 text-slate-300 rounded-xl shadow-2xl p-2 font-body">
+             <Link href="/dashboard/settings" onClick={() => setIsOpen(false)}>
+               <DropdownMenuItem className="cursor-pointer hover:bg-slate-800 hover:text-white rounded-lg py-2.5">
+                 <User className="mr-2 h-4 w-4" /> <span>Xem hồ sơ & Cài đặt</span>
+               </DropdownMenuItem>
+             </Link>
+             <DropdownMenuSeparator className="bg-slate-800 my-1" />
+             <form action="/auth/signout" method="post" className="w-full">
+               <button type="submit" className="w-full">
+                 <DropdownMenuItem className="cursor-pointer text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-lg py-2.5 focus:bg-rose-500/10 focus:text-rose-300">
+                   <LogOut className="mr-2 h-4 w-4" /> <span className="font-bold">Đăng xuất</span>
+                 </DropdownMenuItem>
+               </button>
+             </form>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   );
