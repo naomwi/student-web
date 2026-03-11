@@ -93,13 +93,22 @@ export async function searchUsers(query: string) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return [];
+  if (!query || query.trim() === "") return [];
 
-  const { data } = await supabase
+  // Sanitize query to avoid breaking Supabase PostgREST syntax
+  const safeQuery = query.replace(/,/g, " ");
+
+  const { data, error } = await supabase
     .from("profiles")
     .select("id, full_name, username, avatar_url, email")
-    .or(`full_name.ilike.%${query}%,username.ilike.%${query}%`)
+    .or(`full_name.ilike.%${safeQuery}%,username.ilike.%${safeQuery}%,email.ilike.%${safeQuery}%`)
     .neq("id", user.id) // Exclude self
     .limit(5);
+
+  if (error) {
+    console.error("Search Users Error:", error);
+    return [];
+  }
 
   return data || [];
 }
