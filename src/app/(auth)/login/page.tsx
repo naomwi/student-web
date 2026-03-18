@@ -109,8 +109,8 @@ export default function LoginPage() {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex flex-col justify-center p-4 sm:p-8 overflow-y-auto">
+        <div className="w-full max-w-md mx-auto my-auto py-8">
           {/* Mobile Header (Only visible on small screens) */}
           <div className="md:hidden flex flex-col items-center mb-8">
              <div className="flex items-center gap-2 mb-2">

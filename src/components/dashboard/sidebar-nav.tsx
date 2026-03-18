@@ -131,7 +131,7 @@ export function SidebarNav() {
       </div>
 
       {/* Desktop Sidebar */}
-      <aside className="w-72 fixed inset-y-0 z-40 hidden md:flex flex-col bg-[#1a2332] m-4 rounded-3xl shadow-xl">
+      <aside className="w-72 fixed inset-y-0 z-40 hidden md:flex flex-col bg-[#1a2332] m-4 rounded-3xl shadow-xl overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
         <NavContent />
       </aside>
 

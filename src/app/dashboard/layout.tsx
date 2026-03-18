@@ -34,7 +34,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <SidebarNav />
 
         {/* MAIN CONTENT AREA */}
-        <main className="flex-1 min-w-0 md:ml-[320px] p-4 md:p-8 min-h-screen flex flex-col max-w-full overflow-hidden">
+        <main className="flex-1 min-w-0 md:ml-[320px] p-4 md:p-8 min-h-screen flex flex-col max-w-full overflow-x-hidden">
           {/* HEADER */}
           <header className="flex justify-between items-center mb-10 relative z-30 shrink-0">
             <div className="min-w-0 flex-1 mr-4 md:pl-0 pl-12">
